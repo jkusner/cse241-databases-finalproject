@@ -11,14 +11,13 @@ public class TestInterface extends UserInterface {
     }
     
     @Override
-    public UserInterface run() {
+    public void run() {
         out.println("~~~ Welcome to interface ~~~\n\n");
         String s = promptString("Give me a string");
         out.println("Thanks for \"" + s + "\"");
         int i = promptInt("Give me an int from 0 to 100", 0, 100);
         out.println("Nice " + i);
         pause();
-        return null;
     }
 
     @Override

@@ -2,8 +2,6 @@ package com.johnkusner.cse241final;
 
 import java.io.PrintStream;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,7 +26,7 @@ public class ChooseInterfaceInterface extends UserInterface {
     }
 
     @Override
-    public UserInterface run() {
+    public void run() {
         clear();
         int choice = promptMenu("Welcome, please choose an interface", choices);
         choices.get(choice).run();
@@ -40,8 +38,6 @@ public class ChooseInterfaceInterface extends UserInterface {
         else {
             out.println("Goodbye!");
         }
-
-        return null;
     }
 
     @Override

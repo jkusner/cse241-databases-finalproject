@@ -12,7 +12,7 @@ public abstract class UserInterface extends IOHandler {
     }
     
     public abstract String getInterfaceName();
-    public abstract UserInterface run();
+    public abstract void run();
     public abstract void close();
     
     public String toString() {

@@ -19,12 +19,12 @@ public class ConnectInterface extends UserInterface {
     }
 
     @Override
-    public UserInterface run() {
+    public void run() {
         while (true) {
             String password = promptString("Enter password for " + DB_USERNAME);
             if (connect(password)) {
                 // Connection was made, work is finished.
-                return null;
+                return;
             }
             out.println("Failed to connect. Please re-enter password.");
         }
