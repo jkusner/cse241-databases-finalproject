@@ -1,12 +1,13 @@
 package com.johnkusner.cse241final;
 
 import java.io.PrintStream;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class TestInterface extends UserInterface {
 
-    public TestInterface(Scanner in, PrintStream out) {
-        super(in, out);
+    public TestInterface(Scanner in, PrintStream out, Connection db) {
+        super(in, out, db);
     }
     
     @Override
@@ -16,6 +17,7 @@ public class TestInterface extends UserInterface {
         out.println("Thanks for \"" + s + "\"");
         int i = promptInt("Give me an int from 0 to 100", 0, 100);
         out.println("Nice " + i);
+        pause();
         return null;
     }
 

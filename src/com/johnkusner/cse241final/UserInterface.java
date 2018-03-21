@@ -6,14 +6,6 @@ import java.util.Scanner;
 public abstract class UserInterface extends IOHandler {
     protected Connection db;
     
-    public UserInterface() {
-        this(new Scanner(System.in), System.out, null);
-    }
-
-    public UserInterface(Scanner in, PrintStream out) {
-        this(in, out, null);
-    }
-    
     public UserInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out);
         this.db = db;
@@ -22,4 +14,8 @@ public abstract class UserInterface extends IOHandler {
     public abstract String getInterfaceName();
     public abstract UserInterface run();
     public abstract void close();
+    
+    public String toString() {
+        return getInterfaceName();
+    }
 }

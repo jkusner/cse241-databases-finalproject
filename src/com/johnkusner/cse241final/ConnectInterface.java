@@ -1,9 +1,15 @@
 package com.johnkusner.cse241final;
 
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Scanner;
 
 public class ConnectInterface extends UserInterface {
+    public ConnectInterface(Scanner in, PrintStream out) {
+        super(in, out, null);
+    }
+
     private final String DB_USERNAME = "jjk320";
     private final String CONNECTION_STRING = "jdbc:oracle:thin:@edgar0.cse.lehigh.edu:1521:cse241";
     
