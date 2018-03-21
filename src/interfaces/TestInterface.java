@@ -1,4 +1,4 @@
-package com.johnkusner.cse241final;
+package interfaces;
 
 import java.io.PrintStream;
 import java.sql.Connection;

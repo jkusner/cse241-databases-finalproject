@@ -1,7 +1,9 @@
-package com.johnkusner.cse241final;
+package interfaces;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.util.Scanner;
+
+import com.johnkusner.cse241final.IOHandler;
 
 public abstract class UserInterface extends IOHandler {
     protected Connection db;
