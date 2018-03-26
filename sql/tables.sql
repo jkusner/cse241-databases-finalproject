@@ -189,7 +189,7 @@ create table online_customer (
 
 create table rewards_member (
     customer_id number(8) not null,
-    rewards_card_number number(8) not null,
+    rewards_card_number varchar(50) not null,
     primary key (customer_id),
     foreign key (customer_id) references customer
         on delete cascade,
