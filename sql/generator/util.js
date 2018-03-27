@@ -46,7 +46,7 @@ function randEmail() {
 }
 
 function randTimestamp() {
-    return `${randInt(2010, 2017)}-${randInt(1, 12)}-${randInt(1, 28)} ${randInt(0,23)}:${randInt(0,59)}:${randInt(0,59)}.${randInt(0,99)}`;
+    return `TIMESTAMP '${randInt(2010, 2017)}-${randInt(1, 12)}-${randInt(1, 28)} ${randInt(0,23)}:${randInt(0,59)}:${randInt(0,59)}.${randInt(0,99)}'`;
 }
 
 function randPhone() {

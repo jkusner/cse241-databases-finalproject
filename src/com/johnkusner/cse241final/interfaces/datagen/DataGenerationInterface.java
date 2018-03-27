@@ -21,9 +21,8 @@ public class DataGenerationInterface extends UserInterface {
 
     @Override
     public void run() {
-        List<NamedObject<Runnable>> choices = new ArrayList<NamedObject<Runnable>>();
+        List<NamedObject<Runnable>> choices = new ArrayList<>();
         choices.add(new NamedObject<Runnable>("customer", () -> {
-            
         }));
     }
 

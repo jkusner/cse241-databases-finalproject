@@ -48,7 +48,7 @@ function genRewardsMember(customer_id) {
 function genOnlineCustomer(customer_id) {
     let username = util.randAlphaStr();
     let password_hash = util.randAlphaStr();
-    let date_registered = `TIMESTAMP '${util.randTimestamp()}'`;
+    let date_registered = util.randTimestamp();
     db.logInsert('online_customer', {customer_id, username, password_hash, date_registered});
 }
 
