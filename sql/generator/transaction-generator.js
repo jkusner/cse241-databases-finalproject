@@ -64,6 +64,7 @@ function genPurchased(transaction_id, possible_product_ids) {
             continue;
         }
         genPurchasedSingleItem(transaction_id, prod);
+        purchasedIds.push(prod);
     }
 }
 
