@@ -26,15 +26,18 @@ function genCustomer(customer_id) {
         genOnlineCustomer(customer_id);
     }
 
-    let addresses = Math.floor(Math.sqrt(util.randInt(1, 9)));
-    for (let i = 0; i < addresses; i++) {
-        genCustomerAddress(customer_id);
+    let addressCount = Math.floor(Math.sqrt(util.randInt(1, 9)));
+    let addresses = [];
+    for (let i = 0; i < addressCount; i++) {
+        addresses.push(genCustomerAddress(customer_id));
     }
 
     let phoneNumbers = Math.floor(Math.sqrt(util.randInt(1, 9)));
     for (let i = 0; i < phoneNumbers; i++) {
         genPhoneNumber(customer_id);
     }
+
+    return {addresses};
 }
 
 function genRewardsMember(customer_id) {
@@ -58,6 +61,7 @@ function genCustomerAddress(customer_id) {
         address_id
     };
     db.logInsert('customer_address', customer_address);
+    return address_id;
 }
 
 function genPhoneNumber(customer_id) {
@@ -72,8 +76,5 @@ function genPhoneNumber(customer_id) {
 }
 
 module.exports = {
-    genCustomer,
-    genRewardsMember,
-    genOnlineCustomer,
-    genCustomerAddress
+    genCustomer
 }
