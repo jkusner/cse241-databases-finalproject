@@ -2,20 +2,20 @@ const util = require('./util');
 const db = require('./db');
 const addr = require('./address-generator')
 
-function genLocation(location_id) {
+function genLocation(location_id, location_name) {
     let address_id = util.randId();
     addr.genAddress(address_id);
 
     let location = {
         location_id,
-        location_name: util.randAlphaStr(),
+        location_name: location_name || util.randAlphaStr(),
         address_id
     };
     db.logInsert('location', location);
 }
 
 function genStore(location_id) {
-    genLocation(location_id);
+    genLocation(location_id, 'Store #' + util.randNumStr(3));
 
     let store = {
         location_id,
@@ -28,7 +28,7 @@ function genStore(location_id) {
 }
 
 function genWarehouse(location_id) {
-    genLocation(location_id);
+    genLocation(location_id, 'Warehouse #' + util.randNumStr(3));
 
     let warehouse = {
         location_id,
@@ -48,7 +48,6 @@ function genStock(location_id, product_id) {
 }
 
 module.exports = {
-    genLocation,
     genStore,
     genWarehouse,
     genStock
