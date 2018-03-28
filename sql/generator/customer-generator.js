@@ -9,7 +9,7 @@ function genCustomer(customer_id) {
         middle_name: util.randBool(.9) ? util.randName() : '',
         last_name: util.randName(),
         preferred_name: util.randBool(.9) ? '' : util.randName(),
-        company: util.randBool(.05) ? util.randName() : '',
+        company: util.randBool(.05) ? util.randName() + ' Co.' : '',
         email: util.randEmail()
     };
 
