@@ -31,6 +31,7 @@ function genGiftCard(payment_method_id) {
 
 function genBankCard(payment_method_id) {
     let bank_card = {
+        payment_method_id,
         card_number: util.randNumStr(15),
         name_on_card: util.randName() + ' ' + util.randName(),
         exp_date: util.randInt(1,12) + '/' + util.randInt(2000, 2024),
