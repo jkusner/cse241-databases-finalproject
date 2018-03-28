@@ -80,11 +80,15 @@ for (let vendor = 1; vendor <= vendorCount; vendor++) {
 }
 
 let allLocations = [];
+let allStores = [];
+let allWarehouses = [];
 for (let location = 1; location <= storeCount + warehouseCount; location++) {
     if (location <= storeCount) {
         locGen.genStore(location);
+        allStores.push(location);
     } else {
         locGen.genWarehouse(location);
+        allWarehouses.push(location);
     }
 
     allLocations.push(location);
@@ -112,9 +116,9 @@ for (let customer = 1; customer <= customerCount; customer++) {
 
 for (let trans = 1; trans <= onlineTransactionCount; trans++) {
     let pMethod = util.randChoice(paymentMethods);
-    transGen.genOnlineTransaction(pMethod, allProducts, allLocations, customerAddresses);
+    transGen.genOnlineTransaction(pMethod, allProducts, allStores, customerAddresses);
 }
 
 for (let trans = 1; trans <= physicalTransactionCount; trans++) {
-    transGen.genPhysicalTransaction(allLocations, allProducts);
+    transGen.genPhysicalTransaction(allStores, allProducts);
 }
