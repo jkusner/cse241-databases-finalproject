@@ -8,7 +8,7 @@ function genVendor(vendor_id) {
 
     let vendor = {
         vendor_id,
-        vendor_name: util.randAlphaStr(),
+        vendor_name: util.randName() + ' Inc.',
         address_id
     };
     db.logInsert('vendor', vendor);
@@ -17,7 +17,7 @@ function genVendor(vendor_id) {
 function genBrand(brand_id) {
     let brand = {
         brand_id,
-        brand_name: util.randName() + ' Foods'
+        brand_name: util.randName() + ' Brand'
     }
     db.logInsert('brand', brand);
 }

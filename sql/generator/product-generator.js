@@ -2,20 +2,37 @@ const util = require('./util');
 const db = require('./db');
 
 function genProduct(product_id, brand_id) {
+    let isSpecial = false;
+    let isBook = false;
+    let isExpiring = false;
+    let product_name = util.randAlphaStr(4);
+    let product_tag = '';
+
+    if (util.randBool(.25)) {
+        isSpecial = true;
+        if (util.randBool()) {
+            isBook = true;
+            product_tag = 'Book ';
+        } else {
+            isExpiring = true;
+            product_tag = 'Expiring ';
+        }
+    } else {
+        product_tag = 'Generic ';
+    }
+
     let product = {
         product_id,
-        product_name: util.randAlphaStr(),
+        product_name: product_tag + product_name,
         upc_code: util.randNumStr(15),
         brand_id
     };
     db.logInsert('product', product);
 
-    if (util.randBool(.25)) {
-        if (util.randBool()) {
-            genBook(product_id);
-        } else {
-            genExpiring(product_id);
-        }
+    if (isBook) {
+        genBook(product_id);
+    } else if (isExpiring) {
+        genExpiring(product_id);
     }
 }
 
