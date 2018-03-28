@@ -90,7 +90,6 @@ Aydin
 Azevedo
 Azmat
 Azzouni
-A�mann
 Baba
 Badran
 Baek
@@ -976,7 +975,6 @@ Klepper
 Klingenb
 Klivansky
 Klv
-Kl�pper
 Knapp
 Knezo
 Kobayashi
@@ -1098,7 +1096,6 @@ Levine
 Levitan
 Levy
 Lewa
-Le�o
 Li
 Liabo
 Liang
@@ -1260,7 +1257,6 @@ Michalew
 Midu
 Mietz
 Miguel
-Mih�
 Mikhailov
 Mikolajczak
 Milanic
@@ -1455,7 +1451,6 @@ Payne
 Pease
 Peeri
 Pehlivani
-Pel�ez
 Pepe
 Pereira
 Peres
@@ -1774,7 +1769,6 @@ Silva
 Simmel
 Simon
 Simonet
-Sim�es
 Sinha
 Sircar
 Sitjongsataporn
@@ -1843,7 +1837,6 @@ Stratulat
 Strieg
 Strobl
 Strzem
-Str�mbergs
 Stult
 Sturm
 Stylian
@@ -1957,7 +1950,7 @@ Uchiyama
 Udow
 Ugarte
 Ulbert
-Ullman 
+Ullman
 Ullrich
 Umehara
 Unay
@@ -2131,7 +2124,6 @@ Young
 Yousefz
 Yue
 Yusop
-Y�ksel
 Zabary
 Zaharak
 Zahrani
