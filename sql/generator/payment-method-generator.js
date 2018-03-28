@@ -11,17 +11,23 @@ function genPaymentMethod(customer_id) {
 
     db.logInsert('payment_method', payment_method);
 
+    if (util.randBool(.1)) {
+        genGiftCard(payment_method_id);
+    } else {
+        genBankCard(payment_method_id);
+    }
+
     return payment_method_id;
 }
 
-function genGiftCard(payment_method_id, customer_id) {
+function genGiftCard(payment_method_id) {
     let card_number = util.randNumStr(15);
     let balance = util.randMoney();
 
     db.logInsert('gift_card', {payment_method_id, card_number, balance});
 }
 
-function genBankCard(payment_method_id, customer_id) {
+function genBankCard(payment_method_id) {
     let bank_card = {
         card_number: util.randNumStr(15),
         name_on_card: util.randName() + ' ' + util.randName(),
