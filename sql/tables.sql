@@ -212,7 +212,7 @@ create table gift_card (
     balance number(6,2) not null
         check (balance >= 0),
     primary key (payment_method_id),
-    foreign key (payment_method_id) references customer
+    foreign key (payment_method_id) references payment_method
         on delete cascade
 );
 
@@ -223,7 +223,7 @@ create table bank_card (
     exp_date varchar(10) not null,
     security_code varchar(10) not null,
     primary key (payment_method_id),
-    foreign key (payment_method_id) references customer
+    foreign key (payment_method_id) references payment_method
         on delete cascade
 );
 
