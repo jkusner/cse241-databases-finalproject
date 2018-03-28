@@ -247,7 +247,7 @@ create table transaction (
         check (tax >= 0),
     total number(10, 2),
         check (total > 0),
-    timestamp timestamp,
+    timestamp timestamp not null,
     primary key (transaction_id)
 );
 

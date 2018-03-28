@@ -14,7 +14,8 @@ function genTransaction(transaction_id, possible_product_ids) {
         transaction_id,
         subtotal,
         tax,
-        total
+        total,
+        timestamp
     };
 
     db.logInsert('transaction', transaction);
