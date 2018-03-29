@@ -15,22 +15,8 @@ public class ChooseInterfaceInterface extends UserInterface {
         super(in, out, db);
 
         menu = new Menu<>("Chose an interface", this);
-        menu.addItem("a", new TestInterface(in, out, db));
-        menu.addItem("b", new TestInterface(in, out, db));
-        menu.addItem("c", new TestInterface(in, out, db));
-        menu.addItem("d", new TestInterface(in, out, db));
-        menu.addItem("e", new TestInterface(in, out, db));
-        menu.addItem("f", new TestInterface(in, out, db));
-        menu.addItem("g", new TestInterface(in, out, db));
-        menu.addItem("h", new TestInterface(in, out, db));
-        menu.addItem("i", new TestInterface(in, out, db));
-        menu.addItem("j", new TestInterface(in, out, db));
-        menu.addItem("k", new TestInterface(in, out, db));
-        menu.addItem("m", new TestInterface(in, out, db));
-        menu.addItem("n", new TestInterface(in, out, db));
-        menu.addItem("l", new TestInterface(in, out, db));
-        menu.addItem("o", new TestInterface(in, out, db));
-    }
+        menu.addItem(new TestInterface(in, out, db));
+     }
 
     @Override
     public String getInterfaceName() {
@@ -40,9 +26,9 @@ public class ChooseInterfaceInterface extends UserInterface {
     @Override
     public void run() {
         clear();
-        out.println(menu.prompt().getName());
+        UserInterface choice = menu.prompt().get();
+        choice.run();
         
-        menu.display();
         if (promptBool("Would you like to run another interface?")) {
             this.run();
         }
