@@ -5,24 +5,29 @@ const vendorGen = require('./vendor-generator');
 const productGen = require('./product-generator');
 const paymentMethodGen = require('./payment-method-generator');
 const transGen = require('./transaction-generator');
+const db = require('./db');
 
-// const customerCount = 100;
-// const storeCount = 10;
-// const warehouseCount = 10;
-// const vendorCount = 3;
-// const brandCount = 10;
-// const productCount = 100;
-// const categoryCount = 10;
+const customerCount = 100;
+const storeCount = 10;
+const warehouseCount = 10;
+const vendorCount = 3;
+const brandCount = 10;
+const productCount = 100;
+const categoryCount = 10;
+const onlineTransactionCount = 100;
+const physicalTransactionCount = 100;
 
-const customerCount = 10;
-const storeCount = 2;
-const warehouseCount = 2;
-const vendorCount = 2;
-const brandCount = 2;
-const productCount = 3;
-const categoryCount = 3;
-const onlineTransactionCount = 3;
-const physicalTransactionCount = 3;
+// const customerCount = 10;
+// const storeCount = 2;
+// const warehouseCount = 2;
+// const vendorCount = 2;
+// const brandCount = 2;
+// const productCount = 3;
+// const categoryCount = 3;
+// const onlineTransactionCount = 3;
+// const physicalTransactionCount = 3;
+
+db.header();
 
 for (let vendor = 1; vendor <= vendorCount; vendor++) {
     vendorGen.genVendor(vendor);

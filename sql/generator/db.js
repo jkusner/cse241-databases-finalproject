@@ -26,7 +26,12 @@ function logInsert(table, data) {
     console.log(buildInsert(table, data));
 }
 
+function header() {
+    console.log('WHENEVER SQLERROR EXIT FAILURE;');
+}
+
 module.exports = {
     buildInsert,
-    logInsert
+    logInsert,
+    header
 }
