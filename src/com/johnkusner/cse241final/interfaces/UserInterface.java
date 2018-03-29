@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.johnkusner.cse241final.IOHandler;
 
-public abstract class UserInterface extends IOHandler {
+public abstract class UserInterface extends IOHandler implements Runnable {
     protected Connection db;
     
     public UserInterface(Scanner in, PrintStream out, Connection db) {
@@ -14,7 +14,6 @@ public abstract class UserInterface extends IOHandler {
     }
     
     public abstract String getInterfaceName();
-    public abstract void run();
     public abstract void close();
     
     public String toString() {

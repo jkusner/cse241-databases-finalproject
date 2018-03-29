@@ -6,16 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.johnkusner.cse241final.menu.Menu;
+
 public class ChooseInterfaceInterface extends UserInterface {
 
-    private List<UserInterface> choices;
+    private Menu<UserInterface> menu;
 
     public ChooseInterfaceInterface(Scanner in, PrintStream out,
             Connection db) {
         super(in, out, db);
 
-        choices = new ArrayList<UserInterface>();
-        choices.add(new TestInterface(in, out, db));
+        menu = new Menu<>("Chose an interface", this);
+        menu.addItem("a", new TestInterface(in, out, db));
+        menu.addItem("b", new TestInterface(in, out, db));
+        menu.addItem("c", new TestInterface(in, out, db));
+        menu.addItem("d", new TestInterface(in, out, db));
+        menu.addItem("e", new TestInterface(in, out, db));
+        menu.addItem("f", new TestInterface(in, out, db));
+        menu.addItem("g", new TestInterface(in, out, db));
+        menu.addItem("h", new TestInterface(in, out, db));
+        menu.addItem("i", new TestInterface(in, out, db));
+        menu.addItem("j", new TestInterface(in, out, db));
+        menu.addItem("k", new TestInterface(in, out, db));
+        menu.addItem("m", new TestInterface(in, out, db));
+        menu.addItem("n", new TestInterface(in, out, db));
+        menu.addItem("l", new TestInterface(in, out, db));
+        menu.addItem("o", new TestInterface(in, out, db));
     }
 
     @Override
@@ -26,10 +42,9 @@ public class ChooseInterfaceInterface extends UserInterface {
     @Override
     public void run() {
         clear();
-        int choice = promptMenu("Welcome, please choose an interface", choices);
-        choices.get(choice).run();
-        clear();
-
+        out.println(menu.prompt().getName());
+        
+        menu.display();
         if (promptBool("Would you like to run another interface?")) {
             this.run();
         }

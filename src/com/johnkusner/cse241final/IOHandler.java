@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class IOHandler {
     private final String PROMPT_STRING = "> ";
-    private final int MENU_PAGE_SIZE = 8;
     private final int CLEAR_BLANK_LINES = 100;
     
     protected Scanner in;
@@ -83,66 +82,14 @@ public class IOHandler {
         out.println(prompt);
         in.nextLine();
     }
-    
-    public int promptMenu(String header, List<? extends Object> items) {
-        if (items.isEmpty()) {
-            return -1;
-        } else if (items.size() == 0) {
-            return 0;
-        }
         
-        return promptMenuPage(header, items, 0);
-    }
-    
-    private int promptMenuPage(String header, List<? extends Object> items, int startingItem) {
-        clear();
-        out.println(header);
-        
-        int pageSize = Math.min(items.size() - startingItem, MENU_PAGE_SIZE);
-        
-        boolean showNextPage = items.size() > MENU_PAGE_SIZE + startingItem;
-        boolean showPrevPage = startingItem > 0;
-
-        if (showNextPage || showPrevPage) {            
-            out.printf("Showing (%d-%d/%d)\n\n", startingItem + 1, startingItem + pageSize, items.size());
-        }
-        
-        int i;
-        for (i = 1; i <= pageSize; i++) {
-            out.printf("%d) %s\n", i, items.get(startingItem + i - 1));
-        }
-        
-        if (showNextPage || showPrevPage) {
-            out.println();
-        }
-        if (showNextPage) {
-            out.printf("%d) Next page\n", i++);    
-        }
-        if (showPrevPage) {                
-            out.printf("%d) Prev page\n", 0);
-        }
-        
-        out.println();
-        
-        int inputMin = showPrevPage ? 0 : 1;
-        int inputMax = i - 1;
-        int choice = promptInt(String.format("Select an option [%d-%d]", inputMin, inputMax), inputMin, inputMax);
-        
-        if (choice >= 1 && choice <= MENU_PAGE_SIZE) {
-            clear();
-            return startingItem + choice - 1;
-        } else {
-            if (choice == 0) {
-                return promptMenuPage(header, items, startingItem - MENU_PAGE_SIZE);
-            } else {
-                return promptMenuPage(header, items, startingItem + MENU_PAGE_SIZE);
-            }
-        }
-    }
-    
     public void clear() {
         for (int i = 0; i < CLEAR_BLANK_LINES; i++) {
             out.println();
         }
+    }
+    
+    public PrintStream out() {
+        return out;
     }
 }
