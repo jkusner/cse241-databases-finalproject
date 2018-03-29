@@ -1,6 +1,5 @@
 package com.johnkusner.cse241final;
 import java.io.PrintStream;
-import java.util.List;
 import java.util.Scanner;
 
 public class IOHandler {

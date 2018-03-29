@@ -2,8 +2,6 @@ package com.johnkusner.cse241final.interfaces;
 
 import java.io.PrintStream;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.johnkusner.cse241final.menu.Menu;

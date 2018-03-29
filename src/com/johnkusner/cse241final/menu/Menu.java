@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.johnkusner.cse241final.IOHandler;
-import com.sun.corba.se.spi.orbutil.fsm.Input;
 
 public class Menu<T> {
 
@@ -24,16 +23,16 @@ public class Menu<T> {
         this.io = io;
     }
     
-    public void addItem(MenuItem item) {
+    public void addItem(MenuItem<T> item) {
         this.items.add(item);
     }
     
     public void addItem(String name, T obj) {
-        addItem(new MenuItem(name, obj));
+        addItem(new MenuItem<T>(name, obj));
     }
     
     public void addItem(T obj) {
-        addItem(new MenuItem(obj));
+        addItem(new MenuItem<T>(obj));
     }
     
     public MenuItem<T> prompt() {
