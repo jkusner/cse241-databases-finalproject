@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.johnkusner.cse241final.interfaces.datagen.DataGenerationInterface;
-
 public class ChooseInterfaceInterface extends UserInterface {
 
     private List<UserInterface> choices;
@@ -17,7 +15,6 @@ public class ChooseInterfaceInterface extends UserInterface {
         super(in, out, db);
 
         choices = new ArrayList<UserInterface>();
-        choices.add(new DataGenerationInterface(in, out, db));
         choices.add(new TestInterface(in, out, db));
     }
 
