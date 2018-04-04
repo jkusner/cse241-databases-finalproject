@@ -40,7 +40,7 @@ public class TestInterface extends UserInterface {
 
     @Override
     public String getInterfaceName() {
-        return "Test interface";
+        return "Test Interface";
     }
 
 
