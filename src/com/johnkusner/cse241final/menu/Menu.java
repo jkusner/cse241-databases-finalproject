@@ -16,11 +16,17 @@ public class Menu<T> {
     private IOHandler io;
     private List<MenuItem<T>> items;
     private String prompt;
+    private String header;
     
-    public Menu(String prompt, IOHandler io) {
+    public Menu(String prompt, String header, IOHandler io) {
         items = new ArrayList<>();
         this.prompt = prompt;
+        this.header = header;
         this.io = io;
+    }
+    
+    public Menu(String prompt, IOHandler io) {
+        this(prompt, null, io);
     }
     
     public void addItem(MenuItem<T> item) {
@@ -36,14 +42,26 @@ public class Menu<T> {
     }
     
     public MenuItem<T> prompt() {
+    	return prompt(false);
+    }
+    
+    public MenuItem<T> promptOptional() {
+    	return prompt(true);
+    }
+    
+    private MenuItem<T> prompt(boolean showDone) {
         if (items.isEmpty()) {
             io.out().println("Data is empty.");
             return null;
-        } else if (items.size() == 1) {
+        } else if (items.size() == 1 && !showDone) {
             return items.get(0);
         }
         
-        return items.get(displayPage(0, true));
+        int choice = displayPage(0, showDone);
+        if (choice >= 0) {
+        	return items.get(choice);        	
+        }
+        return null;
     }
     
     public MenuItem<T> display() {
@@ -51,14 +69,14 @@ public class Menu<T> {
             io.out().println("Data is empty");
             return null;
         }
-        int result = displayPage(0, false);
+        int result = displayPage(0, true);
         if (result >= 0) {
             return items.get(result);
         }
         return null;
     }
     
-    private int displayPage(int startIndex, boolean requireChoice) {
+    private int displayPage(int startIndex, boolean showDone) {
         io.clear();
         io.out().println(prompt);
 
@@ -66,10 +84,14 @@ public class Menu<T> {
         
         boolean showNextPage = items.size() > PAGE_SIZE + startIndex;
         boolean showPrevPage = startIndex > 0;
-        boolean showDone = !requireChoice;
         
         if (showNextPage || showPrevPage) {            
             io.out().printf("Showing items %d to %d of %d\n\n", startIndex + 1, startIndex + pageSize, items.size());
+        }
+        
+        if (this.header != null) {
+        	io.out().println("     " + header);
+        	io.out().println("     " + getHR(header.length()));
         }
         
         int i;
@@ -97,9 +119,9 @@ public class Menu<T> {
         while (true) {
             String input = io.promptString("Select an option");
             if (showNextPage && input.equalsIgnoreCase(NEXT_PAGE)) {
-                return displayPage(startIndex + PAGE_SIZE, requireChoice);
+                return displayPage(startIndex + PAGE_SIZE, showDone);
             } else if (showPrevPage && input.equalsIgnoreCase(PREV_PAGE)) {
-                return displayPage(startIndex - PAGE_SIZE, requireChoice);
+                return displayPage(startIndex - PAGE_SIZE, showDone);
             } else if (showDone && input.equalsIgnoreCase(DONE)) {
                 return -1;
             }
@@ -113,5 +135,9 @@ public class Menu<T> {
             }
             io.out().println("Invalid choice, please try again");
         }
-    }    
+    }
+    
+    private String getHR(int width) {
+    	return new String(new char[width]).replace("\0", "-");
+    }
 }
