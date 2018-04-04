@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.sql.Connection;
 import java.util.Scanner;
 
+import com.johnkusner.cse241final.interfaces.manager.ManagerInterface;
 import com.johnkusner.cse241final.menu.Menu;
 
 public class ChooseInterfaceInterface extends UserInterface {
@@ -16,6 +17,7 @@ public class ChooseInterfaceInterface extends UserInterface {
 
         menu = new Menu<>("Chose an interface", this);
         menu.addItem(new TestInterface(in, out, db));
+        menu.addItem(new ManagerInterface(in, out, db));
      }
 
     @Override
