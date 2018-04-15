@@ -17,6 +17,7 @@ public class ManagerInterface extends UserInterface {
 		
 		menu = new Menu<>("Manager Interface", this);
 		menu.addItem(new StatisticsInterface(in, out, db));
+		menu.addItem(new LocationsInterface(in, out, db));
 	}
 
 	@Override
