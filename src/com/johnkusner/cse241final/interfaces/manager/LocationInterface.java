@@ -2,8 +2,6 @@ package com.johnkusner.cse241final.interfaces.manager;
 
 import java.io.PrintStream;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Scanner;
 
 import com.johnkusner.cse241final.interfaces.UserInterface;
@@ -20,21 +18,22 @@ public class LocationInterface extends UserInterface {
 		super(in, out, db);
 		this.loc = loc;
 		
-		menu = new Menu<>("Choose an action", this);
+		menu = new Menu<>("Viewing Location: \"" + loc.getName()
+			+ "\", located at\n" + loc.getAddress(), this);
 		menu.addItem("View Inventory", () -> viewInventory());
 		menu.addItem("Recent Transactions", () -> viewTransactions());
 	}
 
 	@Override
 	public void run() {
-		out.println("Viewing Location: \"" + loc.getName() + "\", located at");
-		out.println(loc.getAddress().toString());
-		
-		menu.display();
+		MenuItem<Runnable> chosen = menu.promptOptional();
+		if (chosen != null && chosen.get() != null) {
+			chosen.get().run();
+		}
 	}
 
 	private void viewInventory() {
-		
+		new InventoryInterface(loc, in, out, db).run();
 	}
 	
 	private void viewTransactions() {

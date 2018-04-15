@@ -27,12 +27,12 @@ public class Location {
 	}
 	
 	public String toString() {
-		return String.format("%8d | %20s", locationId, locationName);
+		return String.format("%20s", locationName);
 	}
 	
 	public Address getAddress() {
 		return address;
 	}
 
-	public static final String HEADER = String.format("%8s | %20s", "ID", "Loc. Name");
+	public static final String HEADER = String.format("%20s", "Loc. Name");
 }
