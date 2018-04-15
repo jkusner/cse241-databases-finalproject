@@ -10,7 +10,6 @@ import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.objects.Inventory;
 import com.johnkusner.cse241final.objects.Location;
-import com.johnkusner.cse241final.objects.ProductSale;
 
 public class InventoryInterface extends UserInterface {
 
@@ -33,7 +32,7 @@ public class InventoryInterface extends UserInterface {
 				ResultSet r = s.executeQuery("SELECT * FROM stock natural join product "
 						+ "where location_id = " + loc.getId())) {
 			
-			Menu<Inventory> inv = new Menu<Inventory>("Location Inventory", Inventory.HEADER, this);
+			Menu<Inventory> inv = new Menu<Inventory>("Inventory at \"" + loc.getName() + "\"", Inventory.HEADER, this);
 			while (r.next()) {
 				Inventory entry = new Inventory(r);
 				
