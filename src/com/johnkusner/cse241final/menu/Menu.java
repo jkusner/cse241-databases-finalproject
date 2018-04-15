@@ -29,16 +29,29 @@ public class Menu<T> {
         this(prompt, null, io);
     }
     
-    public void addItem(MenuItem<T> item) {
+    public Menu<T> setPrompt(String prompt) {
+    	this.prompt = prompt;
+    	return this;
+    }
+    
+    public Menu<T> setHeader(String header) {
+    	this.header = header;
+    	return this;
+    }
+    
+    public Menu<T> addItem(MenuItem<T> item) {
         this.items.add(item);
+        return this;
     }
     
-    public void addItem(String name, T obj) {
+    public Menu<T> addItem(String name, T obj) {
         addItem(new MenuItem<T>(name, obj));
+        return this;
     }
     
-    public void addItem(T obj) {
+    public Menu<T> addItem(T obj) {
         addItem(new MenuItem<T>(obj));
+        return this;
     }
     
     public MenuItem<T> prompt() {
