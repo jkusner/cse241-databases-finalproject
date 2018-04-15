@@ -20,6 +20,18 @@ public class Inventory {
 		this(rs.getInt("product_id"), rs.getString("product_name"), rs.getInt("qty"), rs.getDouble("unit_price"));
 	}
 
+	public int getProductId() {
+		return productId;
+	}
+	
+	public int getQty() {
+		return qty;
+	}
+	
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+	
 	public String toString() {
 		return String.format("%20s | %6d | $%8.2f", productName, qty, unitPrice);
 	}
