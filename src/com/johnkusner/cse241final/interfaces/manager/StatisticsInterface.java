@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
+import com.johnkusner.cse241final.objects.ProductSale;
 
 public class StatisticsInterface extends UserInterface {
 
@@ -40,14 +41,12 @@ public class StatisticsInterface extends UserInterface {
 	}
 	
 	public void showTopSellers() {
-		try (Statement s = db.createStatement()) {
-			ResultSet r = s.executeQuery("SELECT * FROM top_selling_products");
+		try (Statement s = db.createStatement();
+				ResultSet r = s.executeQuery("SELECT * FROM top_selling_products")) {
 			
 			Menu<ProductSale> sales = new Menu<ProductSale>("Top sellers", ProductSale.HEADER, this);
 			while (r.next()) {
-				ProductSale sale = new ProductSale(r.getInt("product_id"),
-						r.getString("product_name"), r.getInt("amount_sold"),
-						r.getDouble("total_sales"));
+				ProductSale sale = new ProductSale(r);
 				
 				sales.addItem(sale);
 			}
