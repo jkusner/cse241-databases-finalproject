@@ -30,6 +30,10 @@ public class Address {
 				rs.getString("city"), rs.getString("state"), rs.getString("zip"), rs.getBoolean("active"));
 	}
 
+	public int getId() {
+	    return addressId;
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(line1).append('\n');
