@@ -21,6 +21,7 @@ public class LocationInterface extends UserInterface {
 		menu = new Menu<>("Viewing Location: \"" + loc.getName()
 			+ "\", located at\n" + loc.getAddress(), this);
 		menu.addItem("View Inventory", () -> viewInventory());
+		// TODO if Store, show recent transactions, else warehouse equivalent
 		menu.addItem("Recent Transactions", () -> viewTransactions());
 	}
 
@@ -37,7 +38,7 @@ public class LocationInterface extends UserInterface {
 	}
 	
 	private void viewTransactions() {
-		
+		new RecentTransactionsInterface(loc, in, out, db).run();
 	}
 	
 	@Override
