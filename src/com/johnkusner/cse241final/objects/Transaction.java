@@ -3,6 +3,7 @@ package com.johnkusner.cse241final.objects;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
 public class Transaction {
@@ -14,6 +15,7 @@ public class Transaction {
     
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat timeFormat;
+    private NumberFormat currencyFormat;
     
     public Transaction(int transactionId, double subtotal, double tax,
             double total, Date timestamp) {
@@ -22,8 +24,10 @@ public class Transaction {
         this.tax = tax;
         this.total = total;
         this.timestamp = timestamp;
+        
         dateFormat = new SimpleDateFormat("MM/d/yyyy");
         timeFormat = new SimpleDateFormat("hh:mm:ss a");
+        currencyFormat = NumberFormat.getCurrencyInstance();
     }
 
     public Transaction(ResultSet rs) throws SQLException {
@@ -53,8 +57,8 @@ public class Transaction {
     }
 
     public String toString() {
-        return String.format("%8d | %10s | %11s | $%9.2f",
-                transactionId, dateFormat.format(timestamp), timeFormat.format(timestamp), total);
+        return String.format("%8d | %10s | %11s | %10s",
+                transactionId, dateFormat.format(timestamp), timeFormat.format(timestamp), currencyFormat.format(total));
     }
 
     public static final String HEADER = String.format("%8s | %10s | %11s | %10s",

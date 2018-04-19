@@ -2,6 +2,7 @@ package com.johnkusner.cse241final.objects;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 
 public class ProductSale {
 	private int productId;
@@ -9,11 +10,17 @@ public class ProductSale {
 	private int amountSold;
 	private double totalSales;
 
+	private NumberFormat numFormat;
+	private NumberFormat currencyFormat;
+
 	public ProductSale(int productId, String productName, int amountSold, double totalSales) {
 		this.productId = productId;
 		this.productName = productName;
 		this.amountSold = amountSold;
 		this.totalSales = totalSales;
+		
+		numFormat = NumberFormat.getNumberInstance();
+		currencyFormat = NumberFormat.getCurrencyInstance();
 	}
 	
 	public ProductSale(ResultSet rs) throws SQLException {
@@ -21,8 +28,8 @@ public class ProductSale {
 	}
 
 	public String toString() {
-		return String.format("%8d | %20s | %6d | $%8.2f", productId, productName, amountSold, totalSales);
+		return String.format("%8d | %20s | %6s | %9s", productId, productName, numFormat.format(amountSold), currencyFormat.format(totalSales));
 	}
 
-	public static final String HEADER = String.format("%8s | %20s | %6s | %8s", "ID", "Product Name", "QTY", "Total Sales");
+	public static final String HEADER = String.format("%8s | %20s | %6s | %9s", "ID", "Product Name", "QTY", "Total Sales");
 }
