@@ -19,7 +19,6 @@ public class StatisticsInterface extends UserInterface {
 		super(in, out, db);
 		
 		menu = new Menu<>("Which statistics would you like to view?", this);
-		menu.addItem("Test", () -> { out.println("hello"); });
 		menu.addItem("Top sellers", () -> showTopSellers());
 	}
 
