@@ -34,6 +34,10 @@ public class Address {
 	    return addressId;
 	}
 	
+	public boolean isActive() {
+	    return active;
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(line1).append('\n');
