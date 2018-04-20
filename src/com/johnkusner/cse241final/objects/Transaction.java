@@ -55,6 +55,10 @@ public class Transaction {
     public Date getTimestamp() {
         return timestamp;
     }
+    
+    public String getFormattedTimestamp() {
+    	return dateFormat.format(timestamp) + " " + timeFormat.format(timestamp);
+    }
 
     public String toString() {
         return String.format("%8d | %10s | %11s | %10s",

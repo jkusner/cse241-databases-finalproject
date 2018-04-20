@@ -43,7 +43,10 @@ public class RecentTransactionsInterface extends UserInterface {
 			}
 			
 			MenuItem<Transaction> chosen = trans.display();
-			// TODO show more about chosen if not null
+			if (chosen != null && chosen.get() != null) {
+				Transaction t = chosen.get();
+				new TransactionDetailInterface(t, in, out, db).run();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
