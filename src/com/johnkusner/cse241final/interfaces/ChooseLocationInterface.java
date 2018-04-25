@@ -1,4 +1,4 @@
-package com.johnkusner.cse241final.interfaces.manager;
+package com.johnkusner.cse241final.interfaces;
 
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -6,15 +6,22 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import com.johnkusner.cse241final.interfaces.UserInterface;
+import com.johnkusner.cse241final.interfaces.manager.ManageLocationInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Location;
 
-public class LocationsInterface extends UserInterface {
+public class ChooseLocationInterface extends UserInterface {
 
-	public LocationsInterface(Scanner in, PrintStream out, Connection db) {
+    public static interface LocationChosenCallback {
+        void onLocationChosen(Location loc);
+    }
+    
+    private LocationChosenCallback callback;
+    
+	public ChooseLocationInterface(LocationChosenCallback cb, Scanner in, PrintStream out, Connection db) {
 		super(in, out, db);
+		this.callback = cb;
 	}
 
 	@Override
@@ -31,7 +38,8 @@ public class LocationsInterface extends UserInterface {
             
 			MenuItem<Location> chosen = locations.display();
 			if (chosen != null && chosen.get() != null) {
-				viewLocation(chosen.get());
+			    clear();
+				callback.onLocationChosen(chosen.get());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,14 +48,9 @@ public class LocationsInterface extends UserInterface {
 		clear();
 	}
 
-	private void viewLocation(Location loc) {
-		clear();
-		new LocationInterface(loc, in, out, db).run();
-	}
-	
 	@Override
 	public String getInterfaceName() {
-		return "View/Edit Locations";
+		return "Choose Location";
 	}
 
 	@Override

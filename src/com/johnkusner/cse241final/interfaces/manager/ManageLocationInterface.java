@@ -9,12 +9,12 @@ import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Location;
 
-public class LocationInterface extends UserInterface {
+public class ManageLocationInterface extends UserInterface {
 
 	private Location loc;
 	private Menu<Runnable> menu;
 	
-	public LocationInterface(Location loc, Scanner in, PrintStream out, Connection db) {
+	public ManageLocationInterface(Location loc, Scanner in, PrintStream out, Connection db) {
 		super(in, out, db);
 		this.loc = loc;
 		
