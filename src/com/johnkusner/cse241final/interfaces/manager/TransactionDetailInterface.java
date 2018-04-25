@@ -40,6 +40,8 @@ public class TransactionDetailInterface extends UserInterface {
 				soldStuff.addItem(sale);
 			}
 			
+			r.close();
+			
 			soldStuff.display();
 		} catch (Exception e) {
 			e.printStackTrace();

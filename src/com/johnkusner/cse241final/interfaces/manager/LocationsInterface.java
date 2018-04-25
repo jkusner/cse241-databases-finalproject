@@ -26,7 +26,9 @@ public class LocationsInterface extends UserInterface {
 			while (r.next()) {
 				locations.addItem(new Location(r));
 			}
-			
+
+            r.close();
+            
 			MenuItem<Location> chosen = locations.display();
 			if (chosen != null && chosen.get() != null) {
 				viewLocation(chosen.get());

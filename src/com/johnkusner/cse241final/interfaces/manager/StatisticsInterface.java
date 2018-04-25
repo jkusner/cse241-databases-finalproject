@@ -49,6 +49,8 @@ public class StatisticsInterface extends UserInterface {
 				sales.addItem(sale);
 			}
 			
+			r.close();
+			
 			sales.display();
 		} catch (Exception e) {
 			e.printStackTrace();

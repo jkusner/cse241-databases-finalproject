@@ -39,6 +39,8 @@ public class InventoryInterface extends UserInterface {
 				inv.addItem(entry);
 			}
 			
+			r.close();
+			
 			inv.display();
 		} catch (Exception e) {
 			e.printStackTrace();

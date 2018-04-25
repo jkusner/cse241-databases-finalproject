@@ -42,6 +42,8 @@ public class RecentTransactionsInterface extends UserInterface {
 				trans.addItem(t);
 			}
 			
+			r.close();
+			
 			MenuItem<Transaction> chosen = trans.display();
 			if (chosen != null && chosen.get() != null) {
 				Transaction t = chosen.get();

@@ -30,7 +30,7 @@ public class ManagerInterface extends UserInterface {
 		clear();
 		
 		MenuItem<UserInterface> choice = menu.promptOptional();
-		if (choice == null) {
+		if (choice == null || choice.get() == null) {
 			return;
 		}
 		
