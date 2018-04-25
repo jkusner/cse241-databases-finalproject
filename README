@@ -1,0 +1,14 @@
+Project by: John Kusner
+
+Building:
+	Makefile is included, run
+		$ make
+	to build the project.
+
+Executing:
+	Run
+		$ java -jar jjk320kusner.jar
+	Note that ojdbc7.jar is required for execution.
+
+Data sources:
+	- Names from edgar0 student and instructor tables
