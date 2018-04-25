@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import com.johnkusner.cse241final.interfaces.manager.ManageLocationInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Location;
