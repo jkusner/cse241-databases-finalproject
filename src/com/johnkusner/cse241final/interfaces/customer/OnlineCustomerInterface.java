@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.johnkusner.cse241final.interfaces.ProductSearchInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
@@ -33,20 +34,25 @@ public class OnlineCustomerInterface extends UserInterface {
     }
 
     private void showMenu() {
+        String cartStatus = "Your cart is empty.";
+        
         Menu<Runnable> menu = new Menu<>("What would you like to do?", this);
         menu.addItem("Search for a product", () -> productSearch());
         if (!cart.isEmpty()) {
             menu.addItem("View/Edit cart", () -> editCart());
-            menu.addItem("Checkout (Total: " + moneyFormat(totalCartPrice()) + ")", () -> checkout());            
+            menu.addItem("Checkout (Total: " + moneyFormat(totalCartPrice()) + ")", () -> checkout()); 
+            cartStatus = "You have " + cart.size() + " items in your cart.";
         }
-        menu.addItem("Cancel", () -> cancel());
+        menu.addItem("Cancel", () -> {});
         
-        if (!cart.isEmpty()) {
-        }
+        menu.setPrompt(cartStatus + "\nWhat would you like to do?");
+        menu.prompt().get().run();
+        
+        showMenu();
     }
     
     private void productSearch() {
-        
+        new ProductSearchInterface(in, out, db).run();
     }
     
     private void editCart() {
