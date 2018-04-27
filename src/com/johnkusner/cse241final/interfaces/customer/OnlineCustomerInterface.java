@@ -126,7 +126,7 @@ public class OnlineCustomerInterface extends UserInterface {
     
     @Override
     public String getInterfaceName() {
-        return "Online Customer Interface";
+        return "Shop On-line";
     }
 
     @Override

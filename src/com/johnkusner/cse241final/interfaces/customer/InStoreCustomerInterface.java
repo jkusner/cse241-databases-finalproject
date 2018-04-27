@@ -26,7 +26,7 @@ public class InStoreCustomerInterface extends UserInterface {
 
     @Override
     public String getInterfaceName() {
-        return "In-Store Customer Interface";
+        return "Shop In-Store";
     }
 
     @Override
