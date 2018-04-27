@@ -30,6 +30,11 @@ public class Stock {
 	public String toString() {
 		return String.format("%8d | %20s | %6s | %9s", productId, productName, numFormat.format(qty), currencyFormat.format(unitPrice));
 	}
+	
+	public String toSimpleString(boolean showTotal) {
+	    return numFormat.format(qty) + " at " + currencyFormat.format(unitPrice) + "/each"
+	            + (showTotal ? (" (" + currencyFormat.format(qty * unitPrice) + " total)") : "");
+	}
     
     public int getQty() {
         return qty;
@@ -39,5 +44,9 @@ public class Stock {
 	    return unitPrice;
 	}
 
+	public void setQty(int qty) {
+	    this.qty = qty;
+	}
+	
 	public static final String HEADER = String.format("%8s | %20s | %6s | %9s", "ID", "Product Name", "QTY", "$/Unit");
 }
