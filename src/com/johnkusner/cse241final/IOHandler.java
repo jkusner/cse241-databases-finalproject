@@ -73,6 +73,22 @@ public class IOHandler {
         return in.nextLine();
     }
     
+    public String promptSqlSafeString(String prompt, int minLength) {
+        String thing = promptString(prompt).toLowerCase();
+        thing = thing.replaceAll("[^a-z0-9_\\- #()]", "").trim();
+        
+        if (thing.length() < minLength) {
+            out.println("You entered \"" + thing + "\". Please enter at least " + minLength + " characters.");
+            return promptSqlSafeString(prompt, minLength);
+        }
+        
+        return thing;
+    }
+    
+    public String promptSqlSafeString(String prompt) {
+        return promptSqlSafeString(prompt, 0);
+    }
+    
     public void pause() {
         pause("Press enter to continue");
     }
