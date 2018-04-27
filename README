@@ -12,3 +12,10 @@ Executing:
 
 Data sources:
 	- Names from edgar0 student and instructor tables
+
+	
+TODO:
+	good universal exception handling
+	make prices of products uniform at all warehouses (maybe a trigger or something would help)
+	unify customer interfaces, make the difference that online requires login, offline requires you to pick store,
+		stock information is dependent on if you are at a store or from the warehouses
