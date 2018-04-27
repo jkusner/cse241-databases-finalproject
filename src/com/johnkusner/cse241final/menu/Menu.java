@@ -11,7 +11,7 @@ public class Menu<T> {
     
     private final String NEXT_PAGE = "n";
     private final String PREV_PAGE = "p";
-    private final String DONE = "d";
+    private final String DONE = "x";
     
     private IOHandler io;
     private List<MenuItem<T>> items;
@@ -123,11 +123,10 @@ public class Menu<T> {
             io.out().printf("%3s) Prev page\n", PREV_PAGE);
         }
         if (showDone) {
-            io.out().printf("%3s) Done", DONE);
+            io.out().printf("%3s) Exit", DONE);
         }
         
         io.out().println();
-        
         
         while (true) {
             String input = io.promptString("Select an option");
