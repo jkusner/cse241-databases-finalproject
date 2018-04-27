@@ -58,14 +58,7 @@ public class ProductSearchInterface extends UserInterface {
     }
     
     private void search() {
-        String searchTerm = promptString("Type your search term").toLowerCase();
-        searchTerm = searchTerm.replaceAll("[^a-z0-9_\\- #()]", "").trim();
-        
-        if (searchTerm.length() < 3) {
-            out.println("Your search for \"" + searchTerm + "\" is invalid. Please search with 3 or more valid characters.");
-            search();
-            return;
-        }
+        String searchTerm = promptSqlSafeString("Type your search term", 3);
         
         String query = "select * " + 
                 "from product " + 
@@ -92,17 +85,18 @@ public class ProductSearchInterface extends UserInterface {
     private void showProducts(ResultSet rs) throws SQLException {
         Menu<Product> results = new Menu<>("Matched products", this);
         
-        boolean foundProducts = false;
+        int resultsCount = 0;
         
         while (rs.next()) {
             results.addItem(new Product(rs));
-            foundProducts = true;
+            resultsCount++;
         }
         
-        if (foundProducts) {
+        if (resultsCount > 0) {
+            results.setPrompt("Matching products (" + resultsCount + " total)");
             this.chosenProduct = results.prompt().get();
         } else {
-            // No matching product, this is handed in run()
+            // No matching product, this is handled in run()
         }
     }
     
