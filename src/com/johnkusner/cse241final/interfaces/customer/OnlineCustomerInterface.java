@@ -14,7 +14,6 @@ import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Product;
-import com.johnkusner.cse241final.objects.ProductSale;
 import com.johnkusner.cse241final.objects.Stock;
 
 public class OnlineCustomerInterface extends UserInterface {
