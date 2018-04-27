@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 import com.johnkusner.cse241final.menu.Menu;
+import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Category;
 import com.johnkusner.cse241final.objects.Product;
 
@@ -28,14 +29,15 @@ public class ProductSearchInterface extends UserInterface {
         menu.addItem("Browse by category", () -> browseByCategory());
         menu.addItem("Search for a product by name/id/product", () -> search());
         
-        menu.prompt().get().run();
+        MenuItem<Runnable> chosen = menu.promptOptional();
         
-        out.println("DEBUG! You chose: " + chosenProduct);
-        pause();
-        
-        if (this.chosenProduct == null) {
-            if (promptBool("No products matched your search. Search again?")) {
-                run();
+        if (chosen != null && chosen.get() != null) {
+            chosen.get().run();
+
+            if (this.chosenProduct == null) {
+                if (promptBool("No products matched your search. Search again?")) {
+                    run();
+                }
             }
         }
     }
