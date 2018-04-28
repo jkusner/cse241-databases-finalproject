@@ -280,6 +280,7 @@ create table transaction (
 
 create table online_transaction (
     transaction_id number(8) not null,
+    est_arrival date not null,    
     primary key (transaction_id),
     foreign key (transaction_id) references transaction
         on delete cascade
@@ -332,7 +333,7 @@ CREATE INDEX used_pm_pm_index ON used_payment_method (payment_method_id);
 create table pickup_order (
     transaction_id number(8) not null,
     location_id number(8) not null,
-    est_arrival date not null,
+    pickup_name varchar(50) not null,
     primary key (transaction_id, location_id),
     foreign key (transaction_id) references online_transaction
         on delete cascade,
@@ -346,7 +347,6 @@ CREATE INDEX pickup_order_loc_index ON pickup_order (location_id);
 create table shipped_order (
     transaction_id number(8) not null,
     address_id number(8) not null,
-    est_arrival date,
     tracking_number varchar(50) not null,
     primary key (transaction_id),
     foreign key (transaction_id) references online_transaction
