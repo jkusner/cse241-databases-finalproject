@@ -19,6 +19,7 @@ drop table PRODUCT cascade constraints;
 drop table PRODUCT_CATEGORY cascade constraints;
 drop table PURCHASED cascade constraints;
 drop table REWARDS_MEMBER cascade constraints;
+drop table REWARDS_PURCHASE cascade constraints;
 drop table SHIPPED_ORDER cascade constraints;
 drop table STOCK cascade constraints;
 drop table STORE cascade constraints;

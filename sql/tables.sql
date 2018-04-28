@@ -298,6 +298,19 @@ create table physical_transaction (
 
 CREATE INDEX physical_transaction_location_id_index ON physical_transaction (location_id);
 
+create table rewards_purchase (
+    transaction_id number(8) not null,
+    customer_id number(8) not null,
+    primary key (transaction_id, rewards_card_number),
+    foreign key (transaction_id) references physical_transaction
+        on delete cascade,
+    foreign key (customer_id) references rewards_member
+        on delete cascade
+);
+
+CREATE INDEX rewards_purchase_trans_index ON rewards_purchase (transaction_id);
+CREATE INDEX rewards_purchase_cust_index ON rewards_purchase (customer_id);
+
 create table purchased (
     transaction_id number(8) not null,
     product_id number(8) not null,
