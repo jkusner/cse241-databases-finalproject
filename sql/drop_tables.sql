@@ -1,6 +1,7 @@
+drop table ACCOUNT_BALANCE cascade constraints;
 drop table ADDRESS cascade constraints;
 drop table BANK_CARD cascade constraints;
-drop table BITCOIN_PAYMENT cascade constraints;
+drop table BITCOIN cascade constraints;
 drop table BOOK cascade constraints;
 drop table BRAND cascade constraints;
 drop table CATEGORY cascade constraints;
@@ -8,7 +9,6 @@ drop table CUSTOMER cascade constraints;
 drop table CUSTOMER_ADDRESS cascade constraints;
 drop table CUSTOMER_PHONE cascade constraints;
 drop table EXPIRING_PRODUCT cascade constraints;
-drop table GIFT_CARD cascade constraints;
 drop table LOCATION cascade constraints;
 drop table ONLINE_CUSTOMER cascade constraints;
 drop table ONLINE_TRANSACTION cascade constraints;
