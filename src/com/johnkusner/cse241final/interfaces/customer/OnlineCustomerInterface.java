@@ -13,6 +13,7 @@ import com.johnkusner.cse241final.interfaces.ProductSearchInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
+import com.johnkusner.cse241final.objects.CartItem;
 import com.johnkusner.cse241final.objects.Product;
 import com.johnkusner.cse241final.objects.Stock;
 
@@ -20,7 +21,7 @@ public class OnlineCustomerInterface extends UserInterface {
 
     private NumberFormat numberFormat;
     private NumberFormat currencyFormat;
-    private List<Stock> cart;
+    private List<CartItem> cart;
     
     public OnlineCustomerInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out, db);
@@ -45,9 +46,9 @@ public class OnlineCustomerInterface extends UserInterface {
         menu.addItem("Add a product to cart", () -> productSearch());
         if (!cart.isEmpty()) {
             menu.addItem("View/Edit cart", () -> editCart());
-            menu.addItem("Checkout (Total: " + moneyFormat(totalCartPrice()) + ")", () -> checkout()); 
+            menu.addItem("Checkout", () -> checkout()); 
             
-            cartStatus = "You have " + cart.size() + " product(s) (" + numberFormat(totalCartItems()) + " item(s)) in your cart.";
+            cartStatus = getCartStatusMessage();
         }
         
         menu.setPrompt(cartStatus + " What would you like to do?");
@@ -74,7 +75,24 @@ public class OnlineCustomerInterface extends UserInterface {
     }
     
     private void editCart() {
+        String title = getCartStatusMessage();
+        title += "\nSelect an item below to modify it.";
         
+    	Menu<CartItem> cartDisplay = new Menu<>(title, CartItem.HEADER, this);
+    	
+        for (CartItem item : cart) {
+        	cartDisplay.addItem(item);
+        }
+        
+        MenuItem<CartItem> chosen = cartDisplay.promptOptional();
+        
+        if (chosen != null && chosen.get() != null) {
+        	editItem(chosen.get());
+        }
+    }
+    
+    private void editItem(CartItem item) {
+    	// TODO item editing
     }
     
     private void checkout() {
@@ -99,20 +117,25 @@ public class OnlineCustomerInterface extends UserInterface {
                     return;
                 }
                 
-                stock.setQty(wanted);
-                cart.add(stock);
+                cart.add(new CartItem(stock, wanted));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    private String getCartStatusMessage() {
+    	int items = totalCartItems();
+    	return "You have " + cart.size() + " product" + s(cart.size()) + " (" + numberFormat(items) + " item" + s(items)
+    			+ ") in your cart. Sub-total: " + moneyFormat(totalCartPrice()) + ".";
+    }
 
     private double totalCartPrice() {
-        return cart.stream().mapToDouble(s -> s.getUnitPrice() * s.getQty()).sum();
+        return cart.stream().mapToDouble(i -> i.getTotal()).sum();
     }
     
     private int totalCartItems() {
-        return cart.stream().mapToInt(s -> s.getQty()).sum();
+        return cart.stream().mapToInt(i -> i.getQty()).sum();
     }
 
     private String numberFormat(int num) {
@@ -121,6 +144,10 @@ public class OnlineCustomerInterface extends UserInterface {
     
     private String moneyFormat(double num) {
         return currencyFormat.format(num);
+    }
+    
+    private String s(int val) {
+    	return val != 1 ? "s" : "";
     }
     
     @Override

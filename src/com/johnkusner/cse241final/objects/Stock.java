@@ -44,9 +44,9 @@ public class Stock {
 	    return unitPrice;
 	}
 
-	public void setQty(int qty) {
-	    this.qty = qty;
+	public String getProductName() {
+		return productName;
 	}
-	
+
 	public static final String HEADER = String.format("%8s | %20s | %6s | %9s", "ID", "Product Name", "QTY", "$/Unit");
 }
