@@ -1,20 +1,20 @@
 const util = require('./util');
 const db = require('./db')
 
-function genPaymentMethod(customer_id) {
-    let isGiftCard = util.randBool(.1);
+function genPaymentMethod(customer_id, allowAccountBalance) {
+    let usedAccountBalance = allowAccountBalance && util.randBool(.25);
 
     let payment_method_id = util.randId();
     let payment_method = {
         payment_method_id,
-        payment_method_name: (isGiftCard ? 'GIFT' : 'BANK') + ' CARD ' + util.randAlphaStr(8),
+        payment_method_name: (usedAccountBalance ? 'BALANCE' : 'BANK') + ' CARD ' + util.randAlphaStr(8),
         customer_id
     };
 
     db.logInsert('payment_method', payment_method);
 
-    if (isGiftCard) {
-        genGiftCard(payment_method_id);
+    if (usedAccountBalance) {
+        genAccountBalance(payment_method_id);
     } else {
         genBankCard(payment_method_id);
     }
@@ -22,11 +22,8 @@ function genPaymentMethod(customer_id) {
     return payment_method_id;
 }
 
-function genGiftCard(payment_method_id) {
-    let card_number = util.randNumStr(15);
-    let balance = util.randMoney();
-
-    db.logInsert('gift_card', {payment_method_id, card_number, balance});
+function genAccountBalance(payment_method_id) {
+    db.logInsert('account_balance', {payment_method_id});
 }
 
 function genBankCard(payment_method_id) {

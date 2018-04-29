@@ -38,12 +38,13 @@ function genOnlineTransaction(payment_method_id, possible_product_ids, pickup_lo
     let transaction_id = util.randId();
     genTransaction(transaction_id, possible_product_ids);
 
-    // Nothing special in online_transaction table
-    db.logInsert('online_transaction', {transaction_id});
+    db.logInsert('online_transaction', {
+        transaction_id,
+        est_arrival: util.randTimestamp()
+    });
 
     genPurchased(transaction_id, possible_product_ids);
 
-    //TODO possibility to generate with multiple payment methods
     genUsedPaymentMethod(transaction_id, payment_method_id);
 
     if (util.randBool()) {
@@ -92,7 +93,7 @@ function genPickupOrder(transaction_id, location_id) {
     let pickup_order = {
         transaction_id,
         location_id,
-        est_arrival: util.randTimestamp()
+        pickup_name: util.randName()
     };
     db.logInsert('pickup_order', pickup_order);
 }
@@ -101,7 +102,6 @@ function genShippedOrder(transaction_id, address_id) {
     let shipped_order = {
         transaction_id,
         address_id,
-        est_arrival: util.randTimestamp(),
         tracking_number: util.randNumStr(20)
     };
     db.logInsert('shipped_order', shipped_order);

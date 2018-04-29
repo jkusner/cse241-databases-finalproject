@@ -37,7 +37,7 @@ function genCustomer(customer_id) {
         genPhoneNumber(customer_id);
     }
 
-    return {addresses};
+    return {addresses, isRewardsMember, isOnlineMember};
 }
 
 function genRewardsMember(customer_id) {
@@ -69,8 +69,7 @@ function genPhoneNumber(customer_id) {
 
     let customer_phone = {
         customer_id,
-        phone_number,
-        active: util.randBool(.95) ? 1 : 0
+        phone_number
     };
     db.logInsert('customer_phone', customer_phone);
 }

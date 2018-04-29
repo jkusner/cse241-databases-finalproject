@@ -7,25 +7,15 @@ const paymentMethodGen = require('./payment-method-generator');
 const transGen = require('./transaction-generator');
 const db = require('./db');
 
-const customerCount = 100;
-const storeCount = 10;
-const warehouseCount = 10;
+const customerCount = 10;
+const storeCount = 5;
+const warehouseCount = 5;
 const vendorCount = 3;
-const brandCount = 10;
-const productCount = 100;
-const categoryCount = 10;
-const onlineTransactionCount = 100;
-const physicalTransactionCount = 100;
-
-// const customerCount = 10;
-// const storeCount = 2;
-// const warehouseCount = 2;
-// const vendorCount = 2;
-// const brandCount = 2;
-// const productCount = 3;
-// const categoryCount = 3;
-// const onlineTransactionCount = 3;
-// const physicalTransactionCount = 3;
+const brandCount = 5;
+const productCount = 10;
+const categoryCount = 3;
+const onlineTransactionCount = 10;
+const physicalTransactionCount = 10;
 
 db.header();
 
@@ -113,9 +103,11 @@ for (let customer = 1; customer <= customerCount; customer++) {
         customerAddresses.push(address);
     }
 
-    for (let i = 0; i < util.randInt(0, 2); i++) {
-        let method_id = paymentMethodGen.genPaymentMethod(customer);
-        paymentMethods.push(method_id);
+    if (cust.isOnlineMember) {
+        for (let i = 0; i < Math.sqrt(util.randInt(1, 10)); i++) {
+            let method_id = paymentMethodGen.genPaymentMethod(customer, i == 0);
+            paymentMethods.push(method_id);
+        }        
     }
 }
 
