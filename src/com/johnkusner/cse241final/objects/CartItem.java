@@ -18,7 +18,7 @@ public class CartItem {
 	}
 	
 	public String toString() {
-		return String.format("%20s | %6s | %9s | %9s", getProductName(), numFormat.format(qty), currencyFormat.format(getUnitPrice()), currencyFormat.format(getTotal()));
+		return String.format("%30s | %6s | %9s | %9s", getProductName(), numFormat.format(qty), currencyFormat.format(getUnitPrice()), currencyFormat.format(getTotal()));
 	}
     
 	public double getUnitPrice() {
@@ -49,5 +49,5 @@ public class CartItem {
 		return false;
 	}
 
-	public static final String HEADER = String.format("%20s | %6s | %9s | %9s", "Product Name", "QTY", "$/Unit", "Total");
+	public static final String HEADER = String.format("%30s | %6s | %9s | %9s", "Product Name", "QTY", "$/Unit", "Total");
 }
