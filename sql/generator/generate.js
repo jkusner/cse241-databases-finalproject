@@ -12,7 +12,6 @@ const storeCount = 5;
 const warehouseCount = 5;
 const vendorCount = 3;
 const brandCount = 5;
-const productCount = 10;
 const categoryCount = 3;
 const onlineTransactionCount = 10;
 const physicalTransactionCount = 10;
@@ -46,6 +45,8 @@ for (let brand in brandToProducts) {
         allProducts.push(product);
     }
 }
+
+const productCount = allProducts.length;
 
 for (let vendor = 1; vendor <= vendorCount; vendor++) {
     let brands = vendorToBrands[vendor];
