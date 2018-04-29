@@ -139,10 +139,10 @@ CREATE INDEX prod_cat_cat_index ON product_category (category_id);
 create table vendor_supply (
     product_id number(8) not null,
     vendor_id number(8) not null,
-    qty number(8) not null,
-        check (qty >= 0),
-    unit_price number(6,2) not null,
-        check (unit_price > 0),
+    shipment_qty number(8) not null,
+        check (shipment_qty >= 0),
+    shipment_price number(9,2) not null,
+        check (shipment_price > 0),
     primary key (product_id, vendor_id),
     foreign key (product_id) references product
         on delete cascade,

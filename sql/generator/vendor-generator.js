@@ -34,8 +34,8 @@ function genVendorSupply(vendor_id, product_id) {
     let vendor_supply = {
         product_id,
         vendor_id,
-        qty: util.randInt(1, 1000),
-        unit_price: util.randMoney()
+        shipment_qty: util.randInt(1, 100) * 100,
+        shipment_price: util.randMoney(true)
     };
     db.logInsert('vendor_supply', vendor_supply);
 }

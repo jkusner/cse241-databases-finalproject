@@ -65,8 +65,10 @@ function randState() {
     return randChoice(states);
 }
 
-function randMoney() {
-    return Number(randNumStr(Math.floor(Math.sqrt(randInt(1, 10)))) + '.' + randNumStr(2));
+function randMoney(superExpensive=false) {
+    let max = superExpensive ? 30 : 9;
+    let min = superExpensive ?  9 : 1;
+    return Number(randNumStr(Math.floor(Math.sqrt(randInt(min, max)))) + '.' + randNumStr(2));
 }
 
 module.exports = {
