@@ -107,6 +107,12 @@ public class OnlineCustomerInterface extends UserInterface {
     }
     
     private void showAvailability(Product prod) {
+    	// If this product is already in cart, editItem instead
+    	CartItem item = cart.stream().filter(i -> i.getProductId() == prod.getId()).findFirst().orElse(null);
+    	if (item != null) {
+    		editItem(item);
+    		return;
+    	}
         try (Statement s = db.createStatement();
                 ResultSet rs = s.executeQuery("select * from warehouse_stock where product_id = " + prod.getId())) {
             clear();

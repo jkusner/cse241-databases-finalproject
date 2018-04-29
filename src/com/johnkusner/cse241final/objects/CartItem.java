@@ -41,6 +41,10 @@ public class CartItem {
     	return stock.getProductName();
     }
     
+    public int getProductId() {
+    	return stock.getProductId();
+    }
+    
 	public boolean setQty(int qty) {
 		if (qty <= this.stock.getQty()) {			
 			this.qty = qty;

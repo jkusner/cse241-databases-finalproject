@@ -47,6 +47,10 @@ public class Stock {
 	public String getProductName() {
 		return productName;
 	}
+	
+	public int getProductId() {
+		return productId;
+	}
 
 	public static final String HEADER = String.format("%8s | %30s | %6s | %9s", "ID", "Product Name", "QTY", "$/Unit");
 }
