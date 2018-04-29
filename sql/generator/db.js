@@ -27,7 +27,7 @@ function logInsert(table, data) {
 }
 
 function header() {
-    console.log('WHENEVER SQLERROR EXIT FAILURE;');
+    console.log('WHENEVER SQLERROR EXIT FAILURE;\nset define off;');
 }
 
 module.exports = {

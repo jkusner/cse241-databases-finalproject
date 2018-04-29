@@ -1,76 +1,81 @@
 const util = require('./util');
 const db = require('./db');
+const PRODUCT_TREE = require('./product-data')
 
-function genProduct(product_id, brand_id) {
-    let isSpecial = false;
-    let isBook = false;
-    let isExpiring = false;
-    let product_name = util.randAlphaStr(4);
-    let product_tag = '';
+let next_category_id = 1;
+let next_product_id = 1;
+let max_brand_id = 1;
 
-    if (util.randBool(.25)) {
-        isSpecial = true;
-        if (util.randBool()) {
-            isBook = true;
-            product_tag = 'Book ';
+let brandToProducts = {};
+
+function buildFromTree(num_brands) {
+    let product_id = 1;
+
+    brandToProducts = {};
+    for (let i = 1; i <= num_brands; i++) {
+        brandToProducts[i] = [];
+    }
+
+    max_brand_id = num_brands || 1;
+    _buildFromTree(PRODUCT_TREE);
+
+    return brandToProducts;
+}
+
+function _buildFromTree(parent, parent_category_id) {
+    if (!parent) return;
+
+    for (let key in parent) {
+        if (key !== '_stuff') {
+            let category_id = next_category_id;
+            next_category_id++;
+            makeCategory(key, category_id, parent_category_id);
+            _buildFromTree(parent[key], category_id);
         } else {
-            isExpiring = true;
-            product_tag = 'Expiring ';
+            for (let product of parent._stuff) {
+                makeProduct(product, next_product_id++, parent_category_id);
+            }
         }
-    } else {
-        product_tag = 'Generic ';
-    }
-
-    let product = {
-        product_id,
-        product_name: product_tag + product_name,
-        upc_code: util.randNumStr(15),
-        brand_id
-    };
-    db.logInsert('product', product);
-
-    if (isBook) {
-        genBook(product_id);
-    } else if (isExpiring) {
-        genExpiring(product_id);
     }
 }
 
-function genBook(product_id) {
-    let book = {
-        product_id,
-        isbn: util.randNumStr(20)
-    };
-    db.logInsert('book', book);
-}
-
-function genExpiring(product_id) {
-    let expiring_product = {
-        product_id,
-        days_fresh: util.randInt(1, 90)
-    };
-    db.logInsert('expiring_product', expiring_product)
-}
-
-function genCategory(category_id) {
-    let category = {
+function makeCategory(category_name, category_id, parent_id) {
+    db.logInsert('category', {
         category_id,
-        category_name: util.randAlphaStr(),
-        parent_id: null
-    }
-    db.logInsert('category', category);
+        category_name,
+        parent_id: parent_id || null
+    });
 }
 
-function genProductCategory(product_id, category_id) {
-    let product_category = {
+function makeProduct(product_data, product_id, category_id) {
+    let brand = util.randInt(1, max_brand_id);
+    db.logInsert('product', {
+        product_id,
+        product_name: product_data.product_name,
+        upc_code: util.randNumStr(15),
+        brand_id: brand
+    });
+    brandToProducts[brand].push(product_id);
+
+    db.logInsert('product_category', {
         product_id,
         category_id
+    });
+
+    if (product_data.book) {
+        db.logInsert('book', {
+            product_id,
+            isbn: product_data.book.isbn
+        });
     }
-    db.logInsert('product_category', product_category);
+    if (product_data.expiring) {
+        db.logInsert('expiring_product', {
+            product_id,
+            days_fresh: product_data.expiring.days_fresh
+        });
+    }
 }
 
 module.exports = {
-    genProduct,
-    genCategory,
-    genProductCategory
+    buildFromTree
 }

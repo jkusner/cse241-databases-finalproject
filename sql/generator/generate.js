@@ -38,26 +38,13 @@ for (let brand = 1; brand <= brandCount; brand++) {
     vendorToBrands[vendor].push(brand);
 }
 
-let brandToProducts = {};
+let brandToProducts = productGen.buildFromTree(brandCount);
 let allProducts = [];
-for (let product = 1; product <= productCount; product++) {
-    let brand = util.randInt(1, brandCount);
-    productGen.genProduct(product, brand);
-    allProducts.push(product);
 
-    if (!brandToProducts[brand]) {
-        brandToProducts[brand] = [];
+for (let brand in brandToProducts) {
+    for (let product of brandToProducts[brand]) {
+        allProducts.push(product);
     }
-    brandToProducts[brand].push(product)
-}
-
-for (let category = 1; category <= categoryCount; category++) {
-    // TODO? subcategories
-    productGen.genCategory(category);    
-}
-
-for (let product = 1; product <= productCount; product++) {
-    productGen.genProductCategory(product, util.randInt(1, categoryCount));
 }
 
 for (let vendor = 1; vendor <= vendorCount; vendor++) {
