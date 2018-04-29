@@ -5,7 +5,7 @@ const PRODUCT_TREE = {
                 _stuff: [
                     {product_name: "Plain Potato Chips"},
                     {product_name: "BBQ Potato Chips"},
-                    {product_name: "Sour Cream & Onion Potato Chips"}
+                    {product_name: "Gross Potato Chips"}
                 ]
             },
             Candy: {
@@ -48,8 +48,8 @@ const PRODUCT_TREE = {
     Books: {
         Fantasy: {
             _stuff: [
-                {product_name: "A Game of Thrones", book: {isbn: "978-0553386790"}},
-                {product_name: "Harry Potter and the Sorceror''s Stone", book: {isbn: "978-0439708180"}},
+                {product_name: "Game of Thrones", book: {isbn: "978-0553386790"}},
+                {product_name: "Harry Potter", book: {isbn: "978-0439708180"}},
             ]
         },
         Textbooks: {
