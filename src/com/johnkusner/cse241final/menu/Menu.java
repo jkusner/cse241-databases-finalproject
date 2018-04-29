@@ -113,7 +113,7 @@ public class Menu<T> {
         }
         i--;
         
-        if (showNextPage || showPrevPage) {
+        if (showNextPage || showPrevPage || showDone) {
             io.out().println();
         }
         if (showNextPage) {
@@ -123,7 +123,7 @@ public class Menu<T> {
             io.out().printf("%3s) Prev page\n", PREV_PAGE);
         }
         if (showDone) {
-            io.out().printf("%3s) Exit", DONE);
+            io.out().printf("%3s) Exit\n", DONE);
         }
         
         io.out().println();
