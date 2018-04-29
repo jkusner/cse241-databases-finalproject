@@ -85,6 +85,7 @@ for (let location = 1; location <= storeCount + warehouseCount; location++) {
 
 let customerAddresses = [];
 let paymentMethods = [];
+let rewardsMembers = [];
 for (let customer = 1; customer <= customerCount; customer++) {
     let cust = custGen.genCustomer(customer);
     for (let address of cust.addresses) {
@@ -95,7 +96,10 @@ for (let customer = 1; customer <= customerCount; customer++) {
         for (let i = 0; i < Math.sqrt(util.randInt(1, 10)); i++) {
             let method_id = paymentMethodGen.genPaymentMethod(customer, i == 0);
             paymentMethods.push(method_id);
-        }        
+        }
+    }
+    if (cust.isRewardsMember) {
+        rewardsMembers.push(customer);
     }
 }
 
@@ -105,5 +109,5 @@ for (let trans = 1; trans <= onlineTransactionCount; trans++) {
 }
 
 for (let trans = 1; trans <= physicalTransactionCount; trans++) {
-    transGen.genPhysicalTransaction(allStores, allProducts);
+    transGen.genPhysicalTransaction(allStores, allProducts, rewardsMembers);
 }

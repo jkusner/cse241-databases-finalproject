@@ -21,7 +21,7 @@ function genTransaction(transaction_id, possible_product_ids) {
     db.logInsert('transaction', transaction);
 }
 
-function genPhysicalTransaction(pickup_locations, possible_product_ids) {
+function genPhysicalTransaction(pickup_locations, possible_product_ids, rewards_members) {
     let transaction_id = util.randId();
     genTransaction(transaction_id, possible_product_ids);
     genPurchased(transaction_id, possible_product_ids);
@@ -32,6 +32,13 @@ function genPhysicalTransaction(pickup_locations, possible_product_ids) {
     };
 
     db.logInsert('physical_transaction', physical_transaction);
+
+    if (rewards_members && rewards_members.length > 0 && util.randBool(.25)) {
+        db.logInsert('rewards_purchase', {
+            customer_id: util.randChoice(rewards_members),
+            transaction_id
+        });
+    }
 }
 
 function genOnlineTransaction(payment_method_id, possible_product_ids, pickup_locations, shipping_locations) {
