@@ -38,7 +38,7 @@ public class CategoryBrowserInterface extends UserInterface {
             if (parent == null) {
                 choice = menu.prompt();
             } else {
-                menu.setPrompt("Current category: " + parent + "\nSelect Done to pick this category, or choose a subcategory below.");
+                menu.setPrompt("Current category: " + parent);
                 choice = menu.promptOptional();
             }
             
