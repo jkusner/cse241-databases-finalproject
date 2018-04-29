@@ -92,7 +92,14 @@ public class OnlineCustomerInterface extends UserInterface {
     }
     
     private void editItem(CartItem item) {
-    	// TODO item editing
+    	clear();
+    	out.println("Your cart contains " + numberFormat(item.getQty()) + "x \"" + item.getProductName() + "\"");
+    	int newQty = promptInt("Enter new quantity (0 to remove)", 0, item.getMaxQty());
+    	if (newQty == 0) {
+    		cart.remove(item);
+    	} else {
+    		item.setQty(newQty);
+    	}
     }
     
     private void checkout() {
