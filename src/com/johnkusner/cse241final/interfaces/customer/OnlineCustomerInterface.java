@@ -103,7 +103,12 @@ public class OnlineCustomerInterface extends UserInterface {
     }
     
     private void checkout() {
-        
+        if (!promptBool("Are you sure you would like to checkout?")) {
+        	return;
+        }
+        clear();
+        out.println("Processing transaction...");
+        pause(); // TODO!
     }
     
     private void showAvailability(Product prod) {
