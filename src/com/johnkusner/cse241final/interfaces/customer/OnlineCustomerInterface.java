@@ -166,24 +166,40 @@ public class OnlineCustomerInterface extends UserInterface {
     		editItem(item);
     		return;
     	}
-        try (Statement s = db.createStatement();
-                ResultSet rs = s.executeQuery("select * from warehouse_stock where product_id = " + prod.getId())) {
+        try (Statement stmt = db.createStatement();
+                ResultSet rs = stmt.executeQuery("select * from warehouse_stock where product_id = " + prod.getId())) {
             clear();
             if (!rs.next()) {
                 out.println("Sorry, " + prod.getName() + " is out of stock.");
                 pause();
             } else {
-                Stock stock = new Stock(rs);
-                out.println("Availability for " + prod.getName() + ": ");
-                out.println(stock.toSimpleString(false));
-                out.println();
-                int wanted = promptInt("How many would you like to add to cart?", 0, stock.getQty());
+                out.println("Availability for \"" + prod.getName() + "\": ");
+
+                List<Stock> available = new ArrayList<Stock>();
+                int totalAvailable = 0;
+                
+                do {
+                    Stock stock = new Stock(rs);
+                    available.add(stock);
+                    totalAvailable += stock.getQty();
+
+                    if (available.size() <= 5) {
+                        out.println("- " + stock.toSimpleString(false));                        
+                    }
+                } while (rs.next());
+                
+                double averageCost = available.stream().mapToDouble(st -> st.getUnitPrice()).average().orElse(0);
+                averageCost = Math.ceil(averageCost * 100) / 100.0;
+                
+                out.println("Cheaper items sell first. Your guaranteed price is <= "
+                        + moneyFormat(averageCost) + "/each");
+                int wanted = promptInt("Enter desired quantity (0 to cancel)", 0, totalAvailable);
                 
                 if (wanted == 0) {
                     return;
                 }
                 
-                cart.add(new CartItem(stock, wanted));
+                cart.add(new CartItem(new Stock(prod.getId(), prod.getName(), totalAvailable, averageCost), wanted));
             }
         } catch (Exception e) {
             e.printStackTrace();
