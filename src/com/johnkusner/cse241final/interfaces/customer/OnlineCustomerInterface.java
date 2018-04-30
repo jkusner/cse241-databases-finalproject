@@ -1,7 +1,6 @@
 package com.johnkusner.cse241final.interfaces.customer;
 
 import java.io.PrintStream;
-import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,11 +18,6 @@ import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.CartItem;
 import com.johnkusner.cse241final.objects.Product;
 import com.johnkusner.cse241final.objects.Stock;
-
-import oracle.jdbc.OracleCallableStatement;
-import oracle.jdbc.OracleConnection;
-import oracle.sql.ARRAY;
-import oracle.sql.ArrayDescriptor;
 
 public class OnlineCustomerInterface extends UserInterface {
 
