@@ -184,14 +184,30 @@ public class OnlineCustomerInterface extends UserInterface {
         	    out.println("Finishing transaction!");
         	    
         	    // TODO: pickup_order, shipped_order, payment_method
-        	    cs = db.prepareCall("{ call finish_transaction(?, ?, ?, ?) }");
+        	    cs = db.prepareCall("{ call finish_transaction(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
         	    
         	    cs.setInt(1, transactionId);
         	    cs.setDouble(2, 0.0); // tax rate
-        	    cs.setDouble(3, 1); // payment method id !TODO!
-        	    cs.registerOutParameter(4, Types.DOUBLE); // final total
+        	    cs.setDouble(3, paymentMethod.getId());
+        	    cs.setDate(4, estArrival);
+        	    if (pickupOrder) {
+        	        cs.setString(5, "pickup order name"); // TODO!
+        	        cs.setInt(6, 1); // pickup order location TODO!
+        	        cs.setNull(7, Types.INTEGER); // shipping address
+        	        cs.setNull(8, Types.VARCHAR); // tracking number
+        	    } else {
+                    cs.setNull(5, Types.VARCHAR);
+                    cs.setNull(6, Types.INTEGER);
+                    cs.setInt(7, 1); // shipping address! TODO
+                    cs.setString(8, "tracking number"); // TODO!
+        	    }
+        	    
+        	    
+        	    cs.registerOutParameter(9, Types.DOUBLE); // final total
         	    
         	    cs.execute();
+        	    
+        	    totalMoneySpent = cs.getInt(9);
         	    
         	    cs.close();
         	    

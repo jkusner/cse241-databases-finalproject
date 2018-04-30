@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PaymentMethod {
-    public int paymentMethodId;
-    public String paymentMethodName;
-    public int customerId;
+    private int paymentMethodId;
+    private String paymentMethodName;
+    private int customerId;
     
     public PaymentMethod(int id, String name, int custId) {
         this.paymentMethodId = id;
@@ -20,5 +20,9 @@ public class PaymentMethod {
     
     public String toString() {
         return paymentMethodName;
+    }
+    
+    public int getId() {
+        return paymentMethodId;
     }
 }
