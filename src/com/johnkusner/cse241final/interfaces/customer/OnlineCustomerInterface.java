@@ -1,9 +1,12 @@
 package com.johnkusner.cse241final.interfaces.customer;
 
 import java.io.PrintStream;
+import java.sql.Array;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,11 @@ import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.CartItem;
 import com.johnkusner.cse241final.objects.Product;
 import com.johnkusner.cse241final.objects.Stock;
+
+import oracle.jdbc.OracleCallableStatement;
+import oracle.jdbc.OracleConnection;
+import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
 
 public class OnlineCustomerInterface extends UserInterface {
 
@@ -108,7 +116,53 @@ public class OnlineCustomerInterface extends UserInterface {
         }
         clear();
         out.println("Processing transaction...");
-        pause(); // TODO!
+        
+        try {
+        	db.setAutoCommit(false);
+        	
+        	CallableStatement cs = db.prepareCall("{ call purchase_product(?, ?, ?, ?, ?) }");;
+        	
+        	for (CartItem item : cart) {
+        		out.println("Purchasing " + item.getProductName() + "...");
+        		
+        		cs.setInt(1, item.getProductId());
+        		cs.setInt(2, item.getQty());
+        		cs.setDouble(3, item.getUnitPrice());
+        		cs.registerOutParameter(4, Types.INTEGER); // amount_got
+        		cs.registerOutParameter(5, Types.DOUBLE); // total_paid
+        		
+        		cs.execute();
+        	
+        		int purchasedQty = cs.getInt(4);
+        		double purchasePrice = cs.getDouble(5);
+        		
+        		out.println("Purchased " + purchasedQty + "/" + item.getQty() + ", for $" + purchasePrice);
+        		
+        		/*
+        		 * TODO:
+        		 * 		insert into transaction table
+        		 * 		purchase should insert into purchased_product table
+        		 * 		if purchased == 0: abort
+        		 * 		if purchased < qty: either abort or roll with it and tell user
+        		 * 							(maybe update cart with new maxQty, allow user to checkout again)
+        		 * 		make the used_payment_method and etc.
+        		 * 		commit if all OK.
+        		 * 		figure out if commit can fail :o
+        		 */
+        	}
+        	
+        	boolean problem = true;
+        	
+        	if (problem) {
+            	db.rollback();
+        	} else {        		
+        		db.commit();	
+        	}
+        	db.setAutoCommit(true);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        pause();
     }
     
     private void showAvailability(Product prod) {
