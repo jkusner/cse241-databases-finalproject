@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.text.NumberFormat;
@@ -114,48 +115,89 @@ public class OnlineCustomerInterface extends UserInterface {
         try {
         	db.setAutoCommit(false);
         	
-        	CallableStatement cs = db.prepareCall("{ call purchase_product(?, ?, ?, ?, ?) }");;
+        	CallableStatement cs = db.prepareCall("{ call begin_transaction(?) }");
         	
+        	cs.registerOutParameter(1, Types.INTEGER);
+        	
+        	cs.execute();
+        	
+        	int transactionId = cs.getInt(1);
+        	
+        	out.println("Transaction ID: " + transactionId);
+        	
+        	cs.close();
+        	
+        	
+        	cs = db.prepareCall("{ call purchase_product(?, ?, ?, ?, ?, ?) }");;
+        	
+        	int totalItemsPurchased = 0;
+        	double totalMoneySpent = 0.0;
+
         	for (CartItem item : cart) {
         		out.println("Purchasing " + item.getProductName() + "...");
         		
-        		cs.setInt(1, item.getProductId());
-        		cs.setInt(2, item.getQty());
-        		cs.setDouble(3, item.getUnitPrice());
-        		cs.registerOutParameter(4, Types.INTEGER); // amount_got
-        		cs.registerOutParameter(5, Types.DOUBLE); // total_paid
+        		cs.setInt(1, transactionId);
+        		cs.setInt(2, item.getProductId());
+        		cs.setInt(3, item.getQty());
+        		cs.setDouble(4, item.getUnitPrice());
+        		cs.registerOutParameter(5, Types.INTEGER); // amount_got
+        		cs.registerOutParameter(6, Types.DOUBLE); // total_paid
         		
         		cs.execute();
         	
-        		int purchasedQty = cs.getInt(4);
-        		double purchasePrice = cs.getDouble(5);
+        		int purchasedQty = cs.getInt(5);
+        		double purchasePrice = cs.getDouble(6);
         		
-        		out.println("Purchased " + purchasedQty + "/" + item.getQty() + ", for $" + purchasePrice);
+        		totalItemsPurchased += purchasedQty;
+        		totalMoneySpent += purchasePrice;
         		
-        		/*
-        		 * TODO:
-        		 * 		insert into transaction table
-        		 * 		purchase should insert into purchased_product table
-        		 * 		if purchased == 0: abort
-        		 * 		if purchased < qty: either abort or roll with it and tell user
-        		 * 							(maybe update cart with new maxQty, allow user to checkout again)
-        		 * 		make the used_payment_method and etc.
-        		 * 		commit if all OK.
-        		 * 		figure out if commit can fail :o
-        		 */
+        		out.println("Purchased " + numberFormat(purchasedQty) + "/" + item.getQty() + ", for " + moneyFormat(purchasePrice));
         	}
         	
-        	boolean problem = true;
-        	
-        	if (problem) {
+        	cs.close();
+            
+        	if (totalItemsPurchased == 0) {
             	db.rollback();
-        	} else {        		
-        		db.commit();	
+        	} else {
+        	    out.println("Finishing transaction!");
+        	    
+        	    // TODO: pickup_order, shipped_order, payment_method
+        	    cs = db.prepareCall("{ call finish_transaction(?, ?, ?, ?) }");
+        	    
+        	    cs.setInt(1, transactionId);
+        	    cs.setDouble(2, 0.0); // tax rate
+        	    cs.setDouble(3, 1); // payment method id !TODO!
+        	    cs.registerOutParameter(4, Types.DOUBLE); // final total
+        	    
+        	    cs.execute();
+        	    
+        	    cs.close();
+        	    
+        		db.commit();
+        		
+        		out.println("Committed successfully");
+        		
+        		return;
         	}
-        	db.setAutoCommit(true);
         } catch (Exception e) {
-        	e.printStackTrace();
+            try {
+                db.rollback();
+            } catch (Exception e2) {
+                // ignore
+                e2.printStackTrace();
+            }
+            
+            e.printStackTrace();
+        } finally {
+            try {
+                db.setAutoCommit(true);
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        
+        // TODO: failure message
         pause();
     }
     
