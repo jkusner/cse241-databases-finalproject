@@ -29,3 +29,5 @@ drop table VENDOR cascade constraints;
 drop table VENDOR_BRAND cascade constraints;
 drop table VENDOR_SUPPLY cascade constraints;
 drop table WAREHOUSE cascade constraints;
+
+drop sequence trans_id_seq;

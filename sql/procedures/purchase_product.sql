@@ -1,5 +1,6 @@
 create or replace procedure purchase_product
-    ( wanted_product_id in number,
+    ( trans_id in number,
+      wanted_product_id in number,
       wanted_qty in number,
       wanted_unit_price in number,
       qty_got out number,
@@ -16,7 +17,7 @@ begin
     qty_got := 0;
     total_paid := 0;
     
-    dbms_output.put_line('Starting purchase');
+    dbms_output.put_line('Starting purchase for transaction_id ' || trans_id);
     
     for row in findStock
     loop
@@ -48,6 +49,21 @@ begin
         
         exit when remaining = 0;
     end loop;
+    
+    if qty_got > 0
+    then
+        insert into purchased 
+            (transaction_id, product_id, qty, unit_price)
+        values
+            (trans_id, wanted_product_id, qty_got, total_paid / qty_got);
+            
+        update transaction
+        set
+            subtotal = subtotal + total_paid,
+            total = subtotal + total_paid
+        where
+            transaction_id = trans_id;
+    end if;
     
     dbms_output.put_line('QTY_GOT: ' || qty_got || ', TOT_PAID: ' || total_paid || ', REMAINING: ' || remaining);
 end;

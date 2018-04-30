@@ -266,15 +266,17 @@ create table bitcoin (
         on delete cascade
 );
 
+create sequence trans_id_seq start with 1;
+
 create table transaction (
     transaction_id number(8) not null,
     subtotal number(10, 2) not null,
-        check (subtotal > 0),
+        check (subtotal >= 0),
     tax number(10, 2) not null,
         check (tax >= 0),
     total number(10, 2),
-        check (total > 0),
-    timestamp timestamp not null,
+        check (total >= 0),
+    timestamp timestamp default current_timestamp,
     primary key (transaction_id)
 );
 
