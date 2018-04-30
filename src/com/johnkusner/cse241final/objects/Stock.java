@@ -32,7 +32,7 @@ public class Stock {
 	}
 	
 	public String toSimpleString(boolean showTotal) {
-	    return numFormat.format(qty) + " at " + currencyFormat.format(unitPrice) + "/each"
+	    return numFormat.format(qty) + " from " + currencyFormat.format(unitPrice) + "/each"
 	            + (showTotal ? (" (" + currencyFormat.format(qty * unitPrice) + " total)") : "");
 	}
     
