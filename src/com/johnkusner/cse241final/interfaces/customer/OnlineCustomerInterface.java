@@ -17,11 +17,16 @@ import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.CartItem;
+import com.johnkusner.cse241final.objects.OnlineCustomer;
+import com.johnkusner.cse241final.objects.PaymentMethod;
 import com.johnkusner.cse241final.objects.Product;
 import com.johnkusner.cse241final.objects.Stock;
 
 public class OnlineCustomerInterface extends UserInterface {
 
+    private OnlineCustomer customer;
+    private PaymentMethod paymentMethod;
+    
     private NumberFormat numberFormat;
     private NumberFormat currencyFormat;
     private List<CartItem> cart;
@@ -39,13 +44,29 @@ public class OnlineCustomerInterface extends UserInterface {
     public void run() {
         clear();
         
+        ChooseOnlineCustomerInterface custLoginInterface = new ChooseOnlineCustomerInterface(in, out, db);
+        custLoginInterface.run();
+        
+        customer = custLoginInterface.getChosenCustomer();
+        
+        if (customer == null) {
+            return;
+        }
+        
+        paymentMethod = custLoginInterface.choosePaymentMethod();
+        
+        if (paymentMethod == null) {
+            pause("No payment method chosen, press any key to exit interface.");
+            return;
+        }
+        
         showMenu();
     }
 
     private void showMenu() {
         String cartStatus = "Your cart is empty.";
         
-        Menu<Runnable> menu = new Menu<>("What would you like to do?", this);
+        Menu<Runnable> menu = new Menu<>("Choose an option", this);
         menu.addItem("Add a product to cart", () -> productSearch());
         if (!cart.isEmpty()) {
             menu.addItem("View/Edit cart", () -> editCart());
@@ -54,7 +75,8 @@ public class OnlineCustomerInterface extends UserInterface {
             cartStatus = getCartStatusMessage();
         }
         
-        menu.setPrompt(cartStatus + " What would you like to do?");
+        menu.setPrompt("Hello, " + customer.getCustomer().getFullName() + "!\n" 
+                + cartStatus + " What would you like to do?");
         MenuItem<Runnable> choice = menu.promptOptional();
         
         if (choice != null && choice.get() != null) {
