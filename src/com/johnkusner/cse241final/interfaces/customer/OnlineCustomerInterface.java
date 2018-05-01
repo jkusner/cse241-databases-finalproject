@@ -137,6 +137,7 @@ public class OnlineCustomerInterface extends UserInterface {
     private void editItem(CartItem item) {
     	clear();
     	out.println("Your cart contains " + numberFormat(item.getQty()) + "x \"" + item.getProductName() + "\"");
+    	out.println("Thera are " + numberFormat(item.getMaxQty()) + " available.");
     	int newQty = promptInt("Enter new quantity (0 to remove)", 0, item.getMaxQty());
     	if (newQty == 0) {
     		cart.remove(item);
