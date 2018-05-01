@@ -19,7 +19,7 @@ public class StatisticsInterface extends UserInterface {
 		super(in, out, db);
 		
 		menu = new Menu<>("Which statistics would you like to view?", this);
-		menu.addItem("Top sellers", () -> showTopSellers());
+		menu.addItem("Top product sales...", () -> showTopSellers());
 	}
 
 	@Override
@@ -39,6 +39,7 @@ public class StatisticsInterface extends UserInterface {
 	}
 	
 	public void showTopSellers() {
+	    // TODO: menu for top of the month, year, etc
 		try (Statement s = db.createStatement();
 				ResultSet r = s.executeQuery("SELECT * FROM top_selling_products")) {
 			
