@@ -25,6 +25,6 @@ public class Product {
     }
     
     public String toString() {
-        return String.format("%20s", productName);
+        return String.format("%30s", productName);
     }
 }

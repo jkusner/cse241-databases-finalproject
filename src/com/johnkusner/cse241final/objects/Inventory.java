@@ -40,8 +40,8 @@ public class Inventory {
 	}
 	
 	public String toString() {
-		return String.format("%20s | %6s | %9s", productName, numFormat.format(qty), currencyFormat.format(unitPrice));
+		return String.format("%30s | %6s | %9s", productName, numFormat.format(qty), currencyFormat.format(unitPrice));
 	}
 
-	public static final String HEADER = String.format("%20s | %6s | %9s", "Product Name", "QTY", "Unit Price");
+	public static final String HEADER = String.format("%30s | %6s | %9s", "Product Name", "QTY", "Unit Price");
 }

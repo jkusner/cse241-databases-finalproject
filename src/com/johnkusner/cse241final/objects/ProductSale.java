@@ -28,8 +28,8 @@ public class ProductSale {
 	}
 
 	public String toString() {
-		return String.format("%8d | %20s | %6s | %9s", productId, productName, numFormat.format(amountSold), currencyFormat.format(totalSales));
+		return String.format("%8d | %30s | %6s | %9s", productId, productName, numFormat.format(amountSold), currencyFormat.format(totalSales));
 	}
 
-	public static final String HEADER = String.format("%8s | %20s | %6s | %9s", "ID", "Product Name", "QTY", "$ Spent");
+	public static final String HEADER = String.format("%8s | %30s | %6s | %9s", "ID", "Product Name", "QTY", "$ Spent");
 }
