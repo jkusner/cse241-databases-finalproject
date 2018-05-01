@@ -51,5 +51,16 @@ public class Address {
 		sb.append(' ').append(zip).append('\n');
 		return sb.toString();
 	}
+	
+	public String toSimpleString() {
+	    return line1 + nextPart(line2) + nextPart(line3) + nextPart(city) + nextPart(state) + " " + zip;
+	}
+	
+	private String nextPart(String thing) {
+	    if (thing != null) {
+	        return ", " + thing;
+	    }
+	    return "";
+	}
 
 }

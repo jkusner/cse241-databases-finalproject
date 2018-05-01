@@ -3,6 +3,7 @@ package com.johnkusner.cse241final.interfaces.customer;
 import java.io.PrintStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,6 +17,7 @@ import com.johnkusner.cse241final.interfaces.ProductSearchInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
+import com.johnkusner.cse241final.objects.Address;
 import com.johnkusner.cse241final.objects.CartItem;
 import com.johnkusner.cse241final.objects.OnlineCustomer;
 import com.johnkusner.cse241final.objects.PaymentMethod;
@@ -30,6 +32,8 @@ public class OnlineCustomerInterface extends UserInterface {
     private NumberFormat numberFormat;
     private NumberFormat currencyFormat;
     private List<CartItem> cart;
+    
+    private Address shipTo;
     
     public OnlineCustomerInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out, db);
@@ -57,6 +61,16 @@ public class OnlineCustomerInterface extends UserInterface {
         
         if (paymentMethod == null) {
             pause("No payment method chosen, press any key to exit interface.");
+            return;
+        }
+        
+        CustomerAddressInterface addressInterface = new CustomerAddressInterface(customer.getCustomer(), in, out, db);
+        addressInterface.run();
+        
+        shipTo = addressInterface.getChosenAddress();
+        
+        if (shipTo == null) {
+            pause("No address has been chosen, press any key to exit interface.");
             return;
         }
         
@@ -183,24 +197,26 @@ public class OnlineCustomerInterface extends UserInterface {
         	} else {
         	    out.println("Finishing transaction!");
         	    
-        	    // TODO: pickup_order, shipped_order, payment_method
-        	    cs = db.prepareCall("{ call finish_transaction(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
+        	    // 2-day shipping
+        	    Date estArrival = new Date(new java.util.Date().getTime() + (2 * 24 * 60 * 60 * 1000));
+        	    
+        	    cs = db.prepareCall("{ call finish_online_transaction(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
         	    
         	    cs.setInt(1, transactionId);
         	    cs.setDouble(2, 0.0); // tax rate
         	    cs.setDouble(3, paymentMethod.getId());
         	    cs.setDate(4, estArrival);
-        	    if (pickupOrder) {
-        	        cs.setString(5, "pickup order name"); // TODO!
-        	        cs.setInt(6, 1); // pickup order location TODO!
-        	        cs.setNull(7, Types.INTEGER); // shipping address
-        	        cs.setNull(8, Types.VARCHAR); // tracking number
-        	    } else {
+//        	    if (pickupOrder) {
+//        	        cs.setString(5, "pickup order name"); // TODO!
+//        	        cs.setInt(6, 1); // pickup order location TODO!
+//        	        cs.setNull(7, Types.INTEGER); // shipping address
+//        	        cs.setNull(8, Types.VARCHAR); // tracking number
+//        	    } else {
                     cs.setNull(5, Types.VARCHAR);
                     cs.setNull(6, Types.INTEGER);
                     cs.setInt(7, 1); // shipping address! TODO
                     cs.setString(8, "tracking number"); // TODO!
-        	    }
+//        	    }
         	    
         	    
         	    cs.registerOutParameter(9, Types.DOUBLE); // final total
