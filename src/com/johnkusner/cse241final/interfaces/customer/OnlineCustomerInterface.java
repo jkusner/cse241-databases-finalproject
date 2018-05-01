@@ -35,6 +35,8 @@ public class OnlineCustomerInterface extends UserInterface {
     
     private Address shipTo;
     
+    private boolean finished = false;
+    
     public OnlineCustomerInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out, db);
         
@@ -99,7 +101,9 @@ public class OnlineCustomerInterface extends UserInterface {
             return;
         }
         
-        showMenu();
+        if (!finished) {            
+            showMenu();
+        }
     }
     
     private void productSearch() {
@@ -159,6 +163,7 @@ public class OnlineCustomerInterface extends UserInterface {
         	
         	int transactionId = cs.getInt(1);
         	
+        	clear();
         	out.println("Transaction ID: " + transactionId);
         	
         	cs.close();
@@ -167,11 +172,9 @@ public class OnlineCustomerInterface extends UserInterface {
         	cs = db.prepareCall("{ call purchase_product(?, ?, ?, ?, ?, ?) }");;
         	
         	int totalItemsPurchased = 0;
-        	double totalMoneySpent = 0.0;
+        	double totalMoneySpent = 0.00;
 
         	for (CartItem item : cart) {
-        		out.println("Purchasing " + item.getProductName() + "...");
-        		
         		cs.setInt(1, transactionId);
         		cs.setInt(2, item.getProductId());
         		cs.setInt(3, item.getQty());
@@ -187,16 +190,29 @@ public class OnlineCustomerInterface extends UserInterface {
         		totalItemsPurchased += purchasedQty;
         		totalMoneySpent += purchasePrice;
         		
-        		out.println("Purchased " + numberFormat(purchasedQty) + "/" + item.getQty() + ", for " + moneyFormat(purchasePrice));
+        		if (purchasedQty > 0) {
+                    String stockNotice = "";
+                    if (purchasedQty < item.getQty()) {
+                        stockNotice = " (no more stock in price range)";
+                    }
+                    
+                    out.printf("Got %sx \"%s\" for %s total%s\n", numberFormat(purchasedQty),
+                            item.getProductName(), moneyFormat(purchasePrice), stockNotice);
+        		} else {
+        		    out.printf("Out of stock: %s\n", item.getProductName());
+        		}
         	}
         	
         	cs.close();
             
         	if (totalItemsPurchased == 0) {
             	db.rollback();
+            	
+            	finished = true;
+            	out.println("We are sorry, it looks like every item in your cart has sold out.");
+            	pause("Press any key to exit interface");
+            	return;
         	} else {
-        	    out.println("Finishing transaction!");
-        	    
         	    // 2-day shipping
         	    Date estArrival = new Date(new java.util.Date().getTime() + (2 * 24 * 60 * 60 * 1000));
         	    
@@ -218,7 +234,6 @@ public class OnlineCustomerInterface extends UserInterface {
                     cs.setString(8, "tracking number"); // TODO!
 //        	    }
         	    
-        	    
         	    cs.registerOutParameter(9, Types.DOUBLE); // final total
         	    
         	    cs.execute();
@@ -229,8 +244,15 @@ public class OnlineCustomerInterface extends UserInterface {
         	    
         		db.commit();
         		
-        		out.println("Committed successfully");
-        		
+        		// Committed successfully
+        		finished = true;        		
+        		out.println("\nTransaction complete!");
+        		out.printf("Total items purchased: %s\nCharged %s to %s\n",
+        		        numberFormat(totalItemsPurchased),
+        		        moneyFormat(totalMoneySpent),
+        		        paymentMethod.toString());
+        		out.printf("Your order will arrive soon at %s!\n", shipTo.toSimpleString());
+        		pause("\nPress enter to exit interface.");
         		return;
         	}
         } catch (Exception e) {
@@ -251,8 +273,8 @@ public class OnlineCustomerInterface extends UserInterface {
             }
         }
         
-        // TODO: failure message
-        pause();
+        out.println("We are sorry, something went wrong and we were unable to complete your order.");
+        finished = !promptBool("Would you like to try again?");
     }
     
     private void showAvailability(Product prod) {
