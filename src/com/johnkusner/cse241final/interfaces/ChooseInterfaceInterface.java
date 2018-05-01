@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.johnkusner.cse241final.interfaces.customer.CustomerInterface;
 import com.johnkusner.cse241final.interfaces.manager.ManagerInterface;
+import com.johnkusner.cse241final.interfaces.statistics.StatisticsInterface;
 import com.johnkusner.cse241final.menu.Menu;
 
 public class ChooseInterfaceInterface extends UserInterface {
@@ -17,10 +18,10 @@ public class ChooseInterfaceInterface extends UserInterface {
         super(in, out, db);
 
         menu = new Menu<>("Chose an interface", this);
-        menu.addItem(new TestInterface(in, out, db));
-        menu.addItem(new ManagerInterface(in, out, db));
         menu.addItem(new CustomerInterface(in, out, db));
-     }
+        menu.addItem(new ManagerInterface(in, out, db));
+        menu.addItem(new StatisticsInterface(in, out, db));
+    }
 
     @Override
     public String getInterfaceName() {

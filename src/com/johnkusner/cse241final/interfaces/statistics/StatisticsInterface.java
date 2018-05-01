@@ -1,4 +1,4 @@
-package com.johnkusner.cse241final.interfaces.manager;
+package com.johnkusner.cse241final.interfaces.statistics;
 
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -24,7 +24,7 @@ public class StatisticsInterface extends UserInterface {
 
 	@Override
 	public String getInterfaceName() {
-		return "View Statistics";
+		return "Statistics Interface";
 	}
 	
 	@Override
