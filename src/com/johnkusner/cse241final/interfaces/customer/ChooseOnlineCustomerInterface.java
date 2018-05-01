@@ -20,9 +20,15 @@ public class ChooseOnlineCustomerInterface extends UserInterface {
     }
     
     private OnlineCustomer chosen;
+    private String prompt;
     
-	public ChooseOnlineCustomerInterface(Scanner in, PrintStream out, Connection db) {
+	public ChooseOnlineCustomerInterface(String prompt, Scanner in, PrintStream out, Connection db) {
 		super(in, out, db);
+		this.prompt = prompt;
+	}
+	
+	public ChooseOnlineCustomerInterface(Scanner in, PrintStream out, Connection db) {
+	    this("Log in as...", in, out, db);
 	}
 
 	@Override
@@ -31,7 +37,7 @@ public class ChooseOnlineCustomerInterface extends UserInterface {
 				ResultSet rs = s.executeQuery("SELECT * FROM online_customer natural join customer "
 				        + "order by lower(username)")) {
 			
-			Menu<OnlineCustomer> customers = new Menu<>("Log in as...", this);
+			Menu<OnlineCustomer> customers = new Menu<>(prompt, this);
 			while (rs.next()) {
 				customers.addItem(new OnlineCustomer(rs));
 			}

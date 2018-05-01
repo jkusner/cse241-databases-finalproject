@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.johnkusner.cse241final.interfaces.ChooseLocationInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
+import com.johnkusner.cse241final.interfaces.customer.ChooseOnlineCustomerInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Location;
@@ -23,6 +24,13 @@ public class ManagerInterface extends UserInterface {
             choose.run();
             if (choose.getLocation() != null) {
                 new ManageLocationInterface(choose.getLocation(), in, out, db).run();                
+            }
+        });
+        menu.addItem("View Online Customers", () -> {
+            ChooseOnlineCustomerInterface choose = new ChooseOnlineCustomerInterface("Choose customer", in, out, db);
+            choose.run();
+            if (choose.getChosenCustomer() != null) {
+                new ManageCustomerInterface(choose.getChosenCustomer().getCustomer(), in, out, db).run();                
             }
         });
     }
