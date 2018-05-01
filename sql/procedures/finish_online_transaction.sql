@@ -2,7 +2,7 @@ create or replace procedure finish_online_transaction
     ( trans_id in number,
       tax_rate in number,
       pmt_mthd_id in number,
-      est_arrival in timestamp,
+      est_arrival_date in timestamp,
       pickup_order_name in varchar,
       pickup_order_loc in number,
       shipping_address in number,
@@ -28,9 +28,9 @@ begin
     -- Create online transaction
     
     insert into online_transaction
-        ( transaction_id, est_arrival )
+        (transaction_id, est_arrival)
     values
-        ( trans_id, est_arrival );
+        (trans_id, est_arrival_date);
     
     -- Create used payment method
     
@@ -57,9 +57,9 @@ begin
     then
         dbms_output.put_line('Creating pickup_order');
         
-        insert into shipped_order
+        insert into pickup_order
             (transaction_id, location_id, pickup_name)
         values
-            (trans_id, pickup_order_location, pickup_order_name);
+            (trans_id, pickup_order_loc, pickup_order_name);
     end if;
 end;
