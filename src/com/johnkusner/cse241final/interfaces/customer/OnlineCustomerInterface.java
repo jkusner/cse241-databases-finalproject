@@ -164,7 +164,7 @@ public class OnlineCustomerInterface extends UserInterface {
         	int transactionId = cs.getInt(1);
         	
         	clear();
-        	out.println("Transaction ID: " + transactionId);
+        	out.println("Transaction ID: " + transactionId + "\n");
         	
         	cs.close();
         	
@@ -205,6 +205,8 @@ public class OnlineCustomerInterface extends UserInterface {
         	
         	cs.close();
             
+        	out.println();
+        	
         	if (totalItemsPurchased == 0) {
             	db.rollback();
             	
@@ -246,7 +248,7 @@ public class OnlineCustomerInterface extends UserInterface {
         		
         		// Committed successfully
         		finished = true;        		
-        		out.println("\nTransaction complete!");
+        		out.printf("Thank you for shopping with BRC, %s!\n", customer.getCustomer().getFullName());
         		out.printf("Total items purchased: %s\nCharged %s to %s\n",
         		        numberFormat(totalItemsPurchased),
         		        moneyFormat(totalMoneySpent),
