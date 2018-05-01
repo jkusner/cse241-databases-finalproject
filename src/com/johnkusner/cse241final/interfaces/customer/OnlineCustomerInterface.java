@@ -288,7 +288,8 @@ public class OnlineCustomerInterface extends UserInterface {
     		return;
     	}
         try (Statement stmt = db.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from warehouse_stock where product_id = " + prod.getId())) {
+                ResultSet rs = stmt.executeQuery("select * from warehouse_stock where product_id = " + prod.getId()
+                        + " and qty > 0")) {
             clear();
             if (!rs.next()) {
                 out.println("Sorry, " + prod.getName() + " is out of stock.");
