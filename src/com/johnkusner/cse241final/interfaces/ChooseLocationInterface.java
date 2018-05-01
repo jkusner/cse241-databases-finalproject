@@ -16,11 +16,10 @@ public class ChooseLocationInterface extends UserInterface {
         void onLocationChosen(Location loc);
     }
     
-    private LocationChosenCallback callback;
+    private Location location;
     
-	public ChooseLocationInterface(LocationChosenCallback cb, Scanner in, PrintStream out, Connection db) {
+	public ChooseLocationInterface(Scanner in, PrintStream out, Connection db) {
 		super(in, out, db);
-		this.callback = cb;
 	}
 
 	@Override
@@ -38,8 +37,7 @@ public class ChooseLocationInterface extends UserInterface {
 			MenuItem<Location> chosen = locations.display();
 			if (chosen != null && chosen.get() != null) {
 			    clear();
-				callback.onLocationChosen(chosen.get());
-			}
+				this.location = chosen.get();			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,6 +45,10 @@ public class ChooseLocationInterface extends UserInterface {
 		clear();
 	}
 
+	public Location getLocation() {
+	    return location;
+	}
+	
 	@Override
 	public String getInterfaceName() {
 		return "Choose Location";

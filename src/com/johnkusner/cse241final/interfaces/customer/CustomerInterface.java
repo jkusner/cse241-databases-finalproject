@@ -11,15 +11,19 @@ import com.johnkusner.cse241final.menu.MenuItem;
 
 public class CustomerInterface extends UserInterface {
 
-    private Menu<UserInterface> menu;
+    private Menu<Runnable> menu;
     
     public CustomerInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out, db);
 
         menu = new Menu<>("Choose Customer Interface", this);
-        menu.addItem("In-Store Visit", new ChooseLocationInterface(loc -> {
-            new InStoreCustomerInterface(loc, in, out, db).run();
-        }, in, out, db));
+        menu.addItem("In-Store Visit", () -> {
+            ChooseLocationInterface choose = new ChooseLocationInterface(in, out, db);
+            choose.run();
+            if (choose.getLocation() != null) {
+                new InStoreCustomerInterface(choose.getLocation(), in, out, db).run();
+            }
+        });
         menu.addItem(new OnlineCustomerInterface(in, out, db));
     }
 
@@ -27,7 +31,7 @@ public class CustomerInterface extends UserInterface {
     public void run() {
         clear();
         
-        MenuItem<UserInterface> choice = menu.promptOptional();
+        MenuItem<Runnable> choice = menu.promptOptional();
         if (choice == null || choice.get() == null) {
             return;
         }

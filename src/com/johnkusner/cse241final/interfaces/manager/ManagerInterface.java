@@ -11,16 +11,19 @@ import com.johnkusner.cse241final.menu.MenuItem;
 
 public class ManagerInterface extends UserInterface {
 
-    private Menu<UserInterface> menu;
+    private Menu<Runnable> menu;
 
     public ManagerInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out, db);
 
         menu = new Menu<>("Manager Interface", this);
         menu.addItem(new StatisticsInterface(in, out, db));
-        menu.addItem("View Locations", new ChooseLocationInterface(loc -> {
-            new ManageLocationInterface(loc, in, out, db).run();
-        }, in, out, db));
+        menu.addItem("View Locations", () -> {
+            ChooseLocationInterface choose = new ChooseLocationInterface(in, out, db);
+            if (choose.getLocation() != null) {
+                new ManageLocationInterface(choose.getLocation(), in, out, db).run();                
+            }
+        });
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ManagerInterface extends UserInterface {
     public void run() {
         clear();
 
-        MenuItem<UserInterface> choice = menu.promptOptional();
+        MenuItem<Runnable> choice = menu.promptOptional();
         if (choice == null || choice.get() == null) {
             return;
         }
