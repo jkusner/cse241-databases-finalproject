@@ -8,6 +8,7 @@ import com.johnkusner.cse241final.interfaces.ChooseLocationInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
+import com.johnkusner.cse241final.objects.Location;
 
 public class CustomerInterface extends UserInterface {
 
@@ -18,7 +19,7 @@ public class CustomerInterface extends UserInterface {
 
         menu = new Menu<>("Choose Customer Interface", this);
         menu.addItem("In-Store Visit", () -> {
-            ChooseLocationInterface choose = new ChooseLocationInterface(in, out, db);
+            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.STORE, in, out, db);
             choose.run();
             if (choose.getLocation() != null) {
                 new InStoreCustomerInterface(choose.getLocation(), in, out, db).run();

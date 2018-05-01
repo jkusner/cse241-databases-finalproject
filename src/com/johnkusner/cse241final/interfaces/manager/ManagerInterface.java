@@ -8,6 +8,7 @@ import com.johnkusner.cse241final.interfaces.ChooseLocationInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
+import com.johnkusner.cse241final.objects.Location;
 
 public class ManagerInterface extends UserInterface {
 
@@ -19,7 +20,8 @@ public class ManagerInterface extends UserInterface {
         menu = new Menu<>("Manager Interface", this);
         menu.addItem(new StatisticsInterface(in, out, db));
         menu.addItem("View Locations", () -> {
-            ChooseLocationInterface choose = new ChooseLocationInterface(in, out, db);
+            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.BOTH, in, out, db);
+            choose.run();
             if (choose.getLocation() != null) {
                 new ManageLocationInterface(choose.getLocation(), in, out, db).run();                
             }

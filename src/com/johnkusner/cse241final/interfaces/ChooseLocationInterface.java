@@ -12,20 +12,19 @@ import com.johnkusner.cse241final.objects.Location;
 
 public class ChooseLocationInterface extends UserInterface {
 
-    public static interface LocationChosenCallback {
-        void onLocationChosen(Location loc);
-    }
     
+    private Location.Type locType;
     private Location location;
     
-	public ChooseLocationInterface(Scanner in, PrintStream out, Connection db) {
+	public ChooseLocationInterface(Location.Type type, Scanner in, PrintStream out, Connection db) {
 		super(in, out, db);
+		locType = type;
 	}
 
 	@Override
 	public void run() {
 		try (Statement s = db.createStatement();
-				ResultSet r = s.executeQuery("SELECT * FROM location natural join address")) {
+				ResultSet r = s.executeQuery("SELECT * FROM location natural join address" + locTypeQuery())) {
 			
 			Menu<Location> locations = new Menu<Location>("Choose a Location", Location.HEADER, this);
 			while (r.next()) {
@@ -54,6 +53,13 @@ public class ChooseLocationInterface extends UserInterface {
 		return "Choose Location";
 	}
 
+	private String locTypeQuery() {
+	    if (locType == Location.Type.BOTH) {
+	        return "";
+	    }
+	    return " natural join " + (locType == Location.Type.STORE ? "store" : "warehouse"); 
+	}
+	
 	@Override
 	public void close() {
 		
