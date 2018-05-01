@@ -238,7 +238,7 @@ public class OnlineCustomerInterface extends UserInterface {
         	    
         	    cs.execute();
         	    
-        	    totalMoneySpent = cs.getInt(9);
+        	    totalMoneySpent = cs.getDouble(9);
         	    
         	    cs.close();
         	    
