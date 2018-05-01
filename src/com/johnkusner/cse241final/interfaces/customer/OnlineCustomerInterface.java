@@ -214,7 +214,7 @@ public class OnlineCustomerInterface extends UserInterface {
 //        	    } else {
                     cs.setNull(5, Types.VARCHAR);
                     cs.setNull(6, Types.INTEGER);
-                    cs.setInt(7, 1); // shipping address! TODO
+                    cs.setInt(7, shipTo.getId());
                     cs.setString(8, "tracking number"); // TODO!
 //        	    }
         	    
