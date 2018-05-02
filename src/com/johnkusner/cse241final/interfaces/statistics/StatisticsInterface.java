@@ -13,6 +13,23 @@ import com.johnkusner.cse241final.objects.ProductSale;
 
 public class StatisticsInterface extends UserInterface {
 
+	static enum TimeFrame {
+		ALL_TIME("all time"),
+		YEAR("year"),
+		MONTH("month"),
+		DAY("day");
+		
+		private String name;
+		
+		TimeFrame(String name) {
+			this.name = name;
+		}
+		
+		public String toString() {
+			return name;
+		}
+	}
+	
 	private Menu<Runnable> menu;
 	
 	public StatisticsInterface(Scanner in, PrintStream out, Connection db) {
@@ -36,14 +53,46 @@ public class StatisticsInterface extends UserInterface {
 		}
 		
 		choice.get().run();
+		
+		run();
 	}
 	
 	public void showTopSellers() {
-	    // TODO: menu for top of the month, year, etc
+		Menu<TimeFrame> timeFrameMenu = new Menu<>("Top Sellers - Choose time frame", this);
+		timeFrameMenu.addItem("All time", TimeFrame.ALL_TIME);
+		timeFrameMenu.addItem("Past year", TimeFrame.YEAR);
+		timeFrameMenu.addItem("Past month", TimeFrame.MONTH);
+		timeFrameMenu.addItem("Past day", TimeFrame.DAY);
+		
+		MenuItem<TimeFrame> frameChoice = timeFrameMenu.promptOptional();
+		if (frameChoice == null) {
+			return;
+		}
+
+		TimeFrame timeFrame = frameChoice.get();
+		
+		String query;
+		
+		switch (timeFrame) {
+		case YEAR:
+			query = "SELECT * FROM top_selling_products_year";
+			break;
+		case MONTH:
+			query = "SELECT * FROM top_selling_products_month";
+			break;
+		case DAY:
+			query = "SELECT * FROM top_selling_products_day";
+			break;
+		default:
+			query = "SELECT * FROM top_selling_products";
+			break;
+		}
+		
+		
 		try (Statement s = db.createStatement();
-				ResultSet r = s.executeQuery("SELECT * FROM top_selling_products")) {
+				ResultSet r = s.executeQuery(query)) {
 			
-			Menu<ProductSale> sales = new Menu<ProductSale>("Top sellers", ProductSale.HEADER, this);
+			Menu<ProductSale> sales = new Menu<ProductSale>("Top sellers (" + timeFrame + ")", ProductSale.HEADER, this);
 			while (r.next()) {
 				ProductSale sale = new ProductSale(r);
 				
@@ -58,6 +107,8 @@ public class StatisticsInterface extends UserInterface {
 		}
 		
 		clear();
+		
+		showTopSellers();
 	}
 	
 	@Override
