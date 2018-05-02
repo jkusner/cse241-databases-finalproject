@@ -46,23 +46,29 @@ public class RecentTransactionsInterface extends UserInterface {
                 "    from payment_method " + 
                 "    where customer_id = " + cust.getId() + " " + 
                 ")",
-                    "Recent Transactions from \"" + cust.getFullName() + "\" (Customer ID#" + cust.getId() + ")");
+                "Recent Transactions from \"" + cust.getFullName() + "\" (Customer ID#" + cust.getId() + ")");
     }
 	
 	private void show(String query, String title) {
 	    try (Statement s = db.createStatement();
                 ResultSet r = s.executeQuery(query)) {
-            
-	        System.out.println(query);
-	        
             Menu<Transaction> trans = new Menu<Transaction>(title + "\nSelect a transaction to see more info.", Transaction.HEADER, this);
+            boolean foundAny = false;
+            
             while (r.next()) {
+                foundAny = true;
+                
                 Transaction t = new Transaction(r);
                 
                 trans.addItem(t);
             }
             
             r.close();
+            
+            if (!foundAny) {
+                pause("No transactions were found. Press enter to continue.");
+                return;
+            }
             
             MenuItem<Transaction> chosen = trans.display();
             if (chosen != null && chosen.get() != null) {
