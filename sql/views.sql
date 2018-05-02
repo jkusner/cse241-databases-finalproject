@@ -51,10 +51,10 @@ order by amount_sold desc;
 
 create or replace view sales_totals_per_day
 as
-select to_char(timestamp, 'DD/MM/YYYY') as date_str, sum(qty * unit_price) as total_sales, sum(qty) as amount_sold,
+select to_char(timestamp, 'MON D, YYYY') as date_str, sum(qty * unit_price) as total_sales, sum(qty) as amount_sold,
     count(transaction_id) as num_trans
 from transaction inner join purchased using (transaction_id)
-group by to_char(timestamp, 'YYYY/MM/DD'), to_char(timestamp, 'DD/MM/YYYY')
+group by to_char(timestamp, 'YYYY/MM/DD'), to_char(timestamp, 'MON D, YYYY')
 order by to_char(timestamp, 'YYYY/MM/DD') desc;
 
 create or replace view sales_totals_per_week
