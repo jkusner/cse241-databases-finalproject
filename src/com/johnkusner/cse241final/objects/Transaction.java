@@ -57,7 +57,7 @@ public class Transaction {
     }
     
     public String getFormattedTimestamp() {
-    	return dateFormat.format(timestamp) + " " + timeFormat.format(timestamp);
+    	return dateFormat.format(timestamp) + ", at " + timeFormat.format(timestamp);
     }
 
     public String toString() {

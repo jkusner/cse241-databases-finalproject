@@ -33,7 +33,8 @@ public class TransactionDetailInterface extends UserInterface {
 						+ "from transaction natural join purchased natural join product "
 						+ "where transaction_id = " + trans.getId())) {
 			
-			Menu<ProductSale> soldStuff = new Menu<ProductSale>("Products Purchased in Transaction " + trans.getId() + " on " + trans.getFormattedTimestamp(), ProductSale.HEADER, this);
+			Menu<ProductSale> soldStuff = new Menu<ProductSale>("Products Purchased in Transaction "
+			        + trans.getId() + " on " + trans.getFormattedTimestamp(), ProductSale.HEADER, this);
 			while (r.next()) {
 				ProductSale sale = new ProductSale(r);
 				
