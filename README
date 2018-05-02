@@ -19,3 +19,14 @@ TODO:
 	make prices of products uniform at all warehouses (maybe a trigger or something would help)
 	unify customer interfaces, make the difference that online requires login, offline requires you to pick store,
 		stock information is dependent on if you are at a store or from the warehouses
+	figure out why this wont work:
+		Availability for "BBQ Potato Chips":
+- 610 from $5.09/each
+- 682 from $20.71/each
+- 991 from $68.58/each
+- 725 from $69.41/each
+Cheaper items sell first. Your guaranteed price is <= $40.95/each
+Enter desired quantity (0 to cancel)> 10000
+Please enter a value between [0,3008]
+Enter desired quantity (0 to cancel)> 3008
+
