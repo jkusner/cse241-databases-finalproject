@@ -310,7 +310,8 @@ public class OnlineCustomerInterface extends UserInterface {
                     }
                 } while (rs.next());
                 
-                double averageCost = available.stream().mapToDouble(st -> st.getUnitPrice()).average().orElse(0);
+                double averageCost = available.stream().mapToDouble(st -> st.getQty() * st.getUnitPrice()).sum();
+                averageCost /= totalAvailable;
                 averageCost = Math.ceil(averageCost * 100) / 100.0;
                 
                 out.println("Cheaper items sell first. Your guaranteed price is <= "
