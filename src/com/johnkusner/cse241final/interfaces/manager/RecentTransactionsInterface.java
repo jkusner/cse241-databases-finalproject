@@ -74,6 +74,7 @@ public class RecentTransactionsInterface extends UserInterface {
             if (chosen != null && chosen.get() != null) {
                 Transaction t = chosen.get();
                 new TransactionDetailInterface(t, in, out, db).run();
+                show(query, title);
             }
         } catch (Exception e) {
             e.printStackTrace();

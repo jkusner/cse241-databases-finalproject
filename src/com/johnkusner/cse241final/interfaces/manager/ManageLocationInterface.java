@@ -32,6 +32,7 @@ public class ManageLocationInterface extends UserInterface {
 		MenuItem<Runnable> chosen = menu.promptOptional();
 		if (chosen != null && chosen.get() != null) {
 			chosen.get().run();
+			run();
 		}
 	}
 
