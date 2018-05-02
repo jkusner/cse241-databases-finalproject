@@ -19,8 +19,15 @@ public class ManagerInterface extends UserInterface {
         super(in, out, db);
 
         menu = new Menu<>("Manager Interface", this);
-        menu.addItem("View Locations", () -> {
-            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.BOTH, in, out, db);
+        menu.addItem("View Stores", () -> {
+            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.STORE, in, out, db);
+            choose.run();
+            if (choose.getLocation() != null) {
+                new ManageLocationInterface(choose.getLocation(), in, out, db).run();                
+            }
+        });
+        menu.addItem("View Warehouses", () -> {
+            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.WAREHOUSE, in, out, db);
             choose.run();
             if (choose.getLocation() != null) {
                 new ManageLocationInterface(choose.getLocation(), in, out, db).run();                

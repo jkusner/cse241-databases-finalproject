@@ -28,7 +28,7 @@ public class ChooseLocationInterface extends UserInterface {
 			
 			Menu<Location> locations = new Menu<Location>("Choose a Location", Location.HEADER, this);
 			while (r.next()) {
-				locations.addItem(new Location(r));
+				locations.addItem(new Location(r, locType));
 			}
 
             r.close();
@@ -36,7 +36,8 @@ public class ChooseLocationInterface extends UserInterface {
 			MenuItem<Location> chosen = locations.display();
 			if (chosen != null && chosen.get() != null) {
 			    clear();
-				this.location = chosen.get();			}
+				this.location = chosen.get();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
