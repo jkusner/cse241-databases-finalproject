@@ -52,7 +52,7 @@ order by amount_sold desc;
 create or replace view sales_totals_per_day
 as
 select to_char(timestamp, 'MON D, YYYY') as date_str, sum(qty * unit_price) as total_sales, sum(qty) as amount_sold,
-    count(transaction_id) as num_trans
+    count(distinct transaction_id) as num_trans
 from transaction inner join purchased using (transaction_id)
 group by to_char(timestamp, 'YYYY/MM/DD'), to_char(timestamp, 'MON D, YYYY')
 order by to_char(timestamp, 'YYYY/MM/DD') desc;
@@ -60,7 +60,7 @@ order by to_char(timestamp, 'YYYY/MM/DD') desc;
 create or replace view sales_totals_per_week
 as
 select 'Week ' || to_char(timestamp, 'WW, YYYY') as date_str, sum(qty * unit_price) as total_sales, sum(qty) as amount_sold,
-    count(transaction_id) as num_trans
+    count(distinct transaction_id) as num_trans
 from transaction inner join purchased using (transaction_id)
 group by 'Week ' || to_char(timestamp, 'WW, YYYY'), to_char(timestamp, 'YYYY/WW')
 order by to_char(timestamp, 'YYYY/WW') desc;
@@ -68,7 +68,7 @@ order by to_char(timestamp, 'YYYY/WW') desc;
 create or replace view sales_totals_per_month
 as
 select to_char(timestamp, 'MON YYYY') as date_str, sum(qty * unit_price) as total_sales, sum(qty) as amount_sold,
-    count(transaction_id) as num_trans
+    count(distinct transaction_id) as num_trans
 from transaction inner join purchased using (transaction_id)
 group by to_char(timestamp, 'MON YYYY'), to_char(timestamp, 'YYYY/MM')
 order by to_char(timestamp, 'YYYY/MM') desc;
@@ -76,7 +76,7 @@ order by to_char(timestamp, 'YYYY/MM') desc;
 create or replace view sales_totals_per_quarter
 as
 select 'Q' || to_char(timestamp, 'Q, YYYY') as date_str, sum(qty * unit_price) as total_sales, sum(qty) as amount_sold,
-    count(transaction_id) as num_trans
+    count(distinct transaction_id) as num_trans
 from transaction inner join purchased using (transaction_id)
 group by 'Q' || to_char(timestamp, 'Q, YYYY'), to_char(timestamp, 'YYYY/Q')
 order by to_char(timestamp, 'YYYY/Q') desc;
