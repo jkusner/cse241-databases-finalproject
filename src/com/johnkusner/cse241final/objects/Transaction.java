@@ -66,6 +66,6 @@ public class Transaction {
     }
 
     public static final String HEADER = String.format("%8s | %10s | %11s | %10s",
-            "ID", "Date", "Time", "Total");
+            "Trans ID", "Date", "Time", "Total");
 
 }
