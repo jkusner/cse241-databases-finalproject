@@ -30,8 +30,14 @@ public class CategoryBrowserInterface extends UserInterface {
                 ResultSet rs = s.executeQuery(getQuery())) {
             Menu<Category> menu = new Menu<>("Choose a category", this);
             
+            boolean foundAny = false;
             while (rs.next()) {
+                foundAny = true;
                 menu.addItem(new Category(rs));
+            }
+            
+            if (!foundAny) {
+                return;
             }
             
             MenuItem<Category> choice;
