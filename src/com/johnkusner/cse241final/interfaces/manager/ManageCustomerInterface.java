@@ -20,7 +20,7 @@ public class ManageCustomerInterface extends UserInterface {
 		
 		menu = new Menu<>("Viewing Customer: \"" + customer.getFullName()
 			+ "\", ID: " + customer.getId(), this);
-		menu.addItem("TODO!", null);
+		menu.addItem("Recent transactions", () -> showRecentTransactions());
 	}
 
 	@Override
@@ -28,9 +28,14 @@ public class ManageCustomerInterface extends UserInterface {
 		MenuItem<Runnable> chosen = menu.promptOptional();
 		if (chosen != null && chosen.get() != null) {
 			chosen.get().run();
+			run();
 		}
 	}
 
+	public void showRecentTransactions() {
+	    new RecentTransactionsInterface(in, out, db).showForCustomer(customer);
+	}
+	
 	@Override
 	public String getInterfaceName() {
 		return "Manage Customer";
