@@ -29,4 +29,14 @@ TODO:
 		Enter desired quantity (0 to cancel)> 10000
 		Please enter a value between [0,3008]
 		Enter desired quantity (0 to cancel)> 3008
-	fix average weighting in price (I think its wrong.)
+	
+	???
+		Current category: Electronics
+		  1) Computers
+		  2) Televisions
+
+		  x) Exit
+
+		Select an option> 1
+		Data is empty.
+
