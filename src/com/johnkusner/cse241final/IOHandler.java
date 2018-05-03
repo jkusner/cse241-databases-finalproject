@@ -3,6 +3,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public class IOHandler {
+    private final boolean DEBUG_MODE = true;
     private final String PROMPT_STRING = "> ";
     private final int CLEAR_BLANK_LINES = 100;
     
@@ -106,5 +107,12 @@ public class IOHandler {
     
     public PrintStream out() {
         return out;
+    }
+    
+    public void handleException(Exception e) {
+        pause("Oops, an error occurred. Please try your last action again. Press enter to continue.");
+        if (DEBUG_MODE) {
+            e.printStackTrace();
+        }
     }
 }

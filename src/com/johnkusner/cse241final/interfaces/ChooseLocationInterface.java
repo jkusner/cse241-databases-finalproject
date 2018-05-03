@@ -39,7 +39,7 @@ public class ChooseLocationInterface extends UserInterface {
 				this.location = chosen.get();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 		}
 		
 		clear();

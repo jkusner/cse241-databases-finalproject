@@ -77,7 +77,7 @@ public class RecentTransactionsInterface extends UserInterface {
                 show(query, title);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
 	}
 	

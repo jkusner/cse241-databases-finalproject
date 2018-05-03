@@ -49,8 +49,7 @@ public class ConnectInterface extends UserInterface {
         }
         catch (Exception e) {
             if (connected) {
-                System.out.println("Error occurred in ConnectInterface!");
-                e.printStackTrace();   
+                handleException(e);
             }
         }
         

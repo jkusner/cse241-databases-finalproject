@@ -115,7 +115,7 @@ public class StatisticsInterface extends UserInterface {
 			
 			sales.display();
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 		}
 		
 		clear();
@@ -169,7 +169,7 @@ public class StatisticsInterface extends UserInterface {
 			
 			sales.display();
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 		}
 		
 		clear();

@@ -315,7 +315,7 @@ public class OnlineCustomerInterface extends UserInterface {
 		                : pickupLocation.getName();
         		        
         		out.printf("Your order will arrive soon at %s!\n", destination);
-        		pause("\nPress enter to exit interface.");
+        		pause("\nPress enter to log out of interface.");
         		return;
         	}
         } catch (Exception e) {
@@ -323,16 +323,13 @@ public class OnlineCustomerInterface extends UserInterface {
                 db.rollback();
             } catch (Exception e2) {
                 // ignore
-                e2.printStackTrace();
             }
-            
-            e.printStackTrace();
         } finally {
             try {
                 db.setAutoCommit(true);
             }
-            catch (SQLException e) {
-                e.printStackTrace();
+            catch (Exception e) {
+                // ignore
             }
         }
         
@@ -401,7 +398,7 @@ public class OnlineCustomerInterface extends UserInterface {
                 cart.add(new CartItem(new Stock(prod.getId(), prod.getName(), totalAvailable, averageCost), wanted));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
     }
     

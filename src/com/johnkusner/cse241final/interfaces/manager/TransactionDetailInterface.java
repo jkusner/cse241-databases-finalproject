@@ -45,7 +45,7 @@ public class TransactionDetailInterface extends UserInterface {
 			
 			soldStuff.display();
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 		}
 	}
 	

@@ -53,7 +53,7 @@ public class ProductSearchInterface extends UserInterface {
                         + "where category_id = " + cat.getId())) {
             showProducts(rs);
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
     }
     
@@ -78,7 +78,7 @@ public class ProductSearchInterface extends UserInterface {
             rs.close();
             s.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
     }
     

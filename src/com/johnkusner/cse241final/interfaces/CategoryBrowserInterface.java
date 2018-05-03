@@ -53,8 +53,7 @@ public class CategoryBrowserInterface extends UserInterface {
                 run();
             }
         } catch (Exception e) {
-            // TODO
-            e.printStackTrace();
+            handleException(e);
         }
     }
 

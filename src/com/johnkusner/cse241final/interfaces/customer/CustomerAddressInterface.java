@@ -46,7 +46,7 @@ public class CustomerAddressInterface extends UserInterface {
                 address = chosen.get();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
     }
 

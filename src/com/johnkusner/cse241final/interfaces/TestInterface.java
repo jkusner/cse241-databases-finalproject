@@ -28,7 +28,7 @@ public class TestInterface extends UserInterface {
             
             r.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
         pause();
     }

@@ -43,7 +43,7 @@ public class InventoryInterface extends UserInterface {
 			
 			inv.display();
 		} catch (Exception e) {
-			e.printStackTrace();
+			handleException(e);
 		}
 	}
 	
