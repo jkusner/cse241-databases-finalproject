@@ -40,12 +40,14 @@ public class RecentTransactionsInterface extends UserInterface {
     public void showForCustomer(Customer cust) {
         clear();
         show("select * " + 
-                "from used_payment_method inner join transaction using (transaction_id) " + 
-                "where payment_method_id in ( " + 
-                "    select payment_method_id " + 
-                "    from payment_method " + 
-                "    where customer_id = " + cust.getId() + " " + 
-                ")",
+                "from used_payment_method inner join transaction using (transaction_id) "
+                + "where payment_method_id in ( "
+                + "    select payment_method_id "
+                + "    from payment_method "
+                + "    where customer_id = " + cust.getId() + " " 
+                + ") "
+                + "order by timestamp desc "
+                + "fetch first 100 rows only",
                 "Recent Transactions from \"" + cust.getFullName() + "\" (Customer ID#" + cust.getId() + ")");
     }
 	
