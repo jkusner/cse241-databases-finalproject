@@ -178,7 +178,8 @@ public class OnlineCustomerInterface extends UserInterface {
         MenuItem<CartItem> chosen = cartDisplay.promptOptional();
         
         if (chosen != null && chosen.get() != null) {
-        	editItem(chosen.get());
+            editItem(chosen.get());
+            editCart();
         }
     }
     
