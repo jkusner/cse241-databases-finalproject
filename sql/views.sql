@@ -92,4 +92,14 @@ from (
     group by product_id, unit_price
 )
 natural join product
-order by unit_price
+order by unit_price;
+
+-- Store Transactions --
+
+create or replace view store_transactions
+as
+select location_id, transaction_id, total, subtotal, tax, timestamp, 1 as isPickup
+from transaction natural join pickup_order
+union
+select location_id, transaction_id, total, subtotal, tax, timestamp, 0 as isPickup 
+from transaction natural join physical_transaction;

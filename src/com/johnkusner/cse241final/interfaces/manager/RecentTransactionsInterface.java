@@ -30,7 +30,7 @@ public class RecentTransactionsInterface extends UserInterface {
 
     public void showForStore(Location loc) {
         clear();
-        show("SELECT * FROM transaction natural join physical_transaction "
+        show("SELECT * FROM store_transactions "
                     + "where location_id = " + loc.getId() + " "
                     + "order by timestamp desc "
                     + "fetch first 100 rows only",
