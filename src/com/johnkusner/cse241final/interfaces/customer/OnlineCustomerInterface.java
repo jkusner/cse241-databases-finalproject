@@ -146,7 +146,9 @@ public class OnlineCustomerInterface extends UserInterface {
         if (choice != null && choice.get() != null) {
             choice.get().run();
         } else {
-            return;
+            if (promptBool("Are you sure you want to log out of customer interface?")) {
+                return;                
+            }
         }
         
         if (!finished) {            
