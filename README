@@ -96,6 +96,10 @@ Interfaces:
 				View the top selling products and associated sales-figures within the chosen time frame.
 			Sales totals per...:
 				View daily, weekly, monthly, or quarterly sales figures.
+	
+	In a real system. Several more interfaces would be included. These include browsing vendors stock and ordering
+	shipments, price editing, sale and discount management, interfaces for cashiers that scan barcodes and give live
+	pricing information, interfaces for account management (both for the user and administrators), and more.
 
 Menus:
 	Almost every inteface makes extensive use of paginated "Menu"s. The Menu class can be found in the root package.
@@ -103,6 +107,22 @@ Menus:
 	Entering "n" will take you to the next page, and "p" will take you to the previous page.
 	Entering "x" will close the Menu, when available.
 
+Use of PL/SQL:
+	Several PL/SQL procedures are used to enable product purchasing:
+		- begin_transaction: Creates an empty transaction with the next available transaction id, returns the
+			transaction_id to the caller via an out parameter.
+		- purchase_product: purchases as many of a product as it can from either the specified location or the
+			collection of all warehouses. Updates quantities in stock table and creates entries in the purchased
+			table. Updates subtotal and total in the transaction table. Returns the amount of products purchased
+			and the total price of the purchased products via out parameters.
+		- finish_online_transaction: applies tax to a transaction (if asked), adds an entry to online_transaction
+			table and either the pickup_order or shipped_order table. Also adds record to used_payment_method, as
+			if a real customer used one of their payment methods to complete the transaction.
+
+Use of views:
+	A handful of views exist. Most are for statistics purposes such as sales_totals_per_X, and top_selling_products_X.
+	Additionally, warehouse_stock aggregates all available stock between warehouses, and store_transactions gets
+	recent transaction information for a store including both physical and pickup_order transactions.
 	
 TODO:
 	good universal exception handling
@@ -119,4 +139,5 @@ TODO:
 		Enter desired quantity (0 to cancel)> 10000
 		Please enter a value between [0,3008]
 		Enter desired quantity (0 to cancel)> 3008
-
+		!! average needs to change as cheaper products are purchased.
+		!! consider prompting user for their max price or max total
