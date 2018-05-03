@@ -1,5 +1,6 @@
 create or replace procedure purchase_product
     ( trans_id in number,
+      loc_id in number, /* null means warehouse purchase */
       wanted_product_id in number,
       wanted_qty in number,
       wanted_unit_price in number,
@@ -9,8 +10,11 @@ as
     remaining number := wanted_qty;
     cursor findStock is
         select location_id, product_id, qty, unit_price
-        from stock inner join warehouse using (location_id)
-        where qty > 0 and product_id = wanted_product_id and unit_price <= wanted_unit_price
+        from stock
+        where
+            qty > 0 and product_id = wanted_product_id and unit_price <= wanted_unit_price
+            and (location_id = loc_id
+                or (loc_id is null and location_id in (select location_id from warehouse)))
         order by unit_price;
     stockRow stock%rowtype;
 begin
