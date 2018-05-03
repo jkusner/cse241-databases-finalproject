@@ -104,7 +104,7 @@ public class OnlineCustomerInterface extends UserInterface {
             shipTo = addressInterface.getChosenAddress();
             
             if (shipTo == null) {
-                pause("No address has been chosen, press any key to exit interface.");
+                pause("No address has been chosen, press enter to exit interface.");
                 return;
             }
         } else {
@@ -113,7 +113,7 @@ public class OnlineCustomerInterface extends UserInterface {
             pickupLocation = locationInterface.getLocation();
             
             if (pickupLocation == null) {
-                pause("No address has been chosen, press any key to exit interface.");
+                pause("No address has been chosen, press enter to exit interface.");
                 return;
             }
             
