@@ -78,7 +78,8 @@ Interfaces:
 		Sub-Interfaces:
 			View Stores / Warehouses:
 				Allows managers to view information about locations.
-				All locations have inventory information, and stores have recent transaction information.
+				Managers are able to view the inventory available at these locations, and can reorder chosen
+				products from vendors in a few easy steps.
 			View Customers:
 				View information about customers, and their recent transactions.
 			Transaction detail:
@@ -97,9 +98,9 @@ Interfaces:
 			Sales totals per...:
 				View daily, weekly, monthly, or quarterly sales figures.
 	
-	In a real system. Several more interfaces would be included. These include browsing vendors stock and ordering
-	shipments, price editing, sale and discount management, interfaces for cashiers that scan barcodes and give live
-	pricing information, interfaces for account management (both for the user and administrators), and more.
+	In a real system. Several more interfaces would be included. These include price editing, sale and
+	discount management, interfaces for cashiers that read barcodes and give live pricing information,
+	interfaces for account management (both for the user and administrators), and many more.
 
 Menus:
 	Almost every inteface makes extensive use of paginated "Menu"s. The Menu class can be found in the root package.
@@ -118,6 +119,8 @@ Use of PL/SQL:
 		- finish_online_transaction: applies tax to a transaction (if asked), adds an entry to online_transaction
 			table and either the pickup_order or shipped_order table. Also adds record to used_payment_method, as
 			if a real customer used one of their payment methods to complete the transaction.
+		- order_inventory: used within the Manager interface to order shipments of products to locations from
+			vendors.
 
 Use of views:
 	A handful of views exist. Most are for statistics purposes such as sales_totals_per_X, and top_selling_products_X.
