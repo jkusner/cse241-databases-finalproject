@@ -269,8 +269,11 @@ public class OnlineCustomerInterface extends UserInterface {
             	pause("Press any key to exit interface");
             	return;
         	} else {
-        	    // 2-day shipping
-        	    Date estArrival = new Date(new java.util.Date().getTime() + (2 * 24 * 60 * 60 * 1000));
+        	    long shippingTime = orderType == Type.PICKUP_ORDER
+        	            ? (2 * 60 * 60 * 1000) // 2 hour pickup
+	                    : (2 * 24 * 60 * 60 * 1000); // 2 day shipping
+        	    Date estArrival = new Date(new java.util.Date().getTime() + shippingTime);
+        	    
         	    cs = db.prepareCall("{ call finish_online_transaction(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
         	    
         	    cs.setInt(1, transactionId);
