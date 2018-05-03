@@ -83,7 +83,7 @@ public class ChooseOnlineCustomerInterface extends UserInterface {
                 return chosen.get();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            handleException(e);
         }
         
         return null;
