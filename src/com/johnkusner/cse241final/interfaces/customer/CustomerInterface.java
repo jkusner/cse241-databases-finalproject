@@ -16,21 +16,13 @@ public class CustomerInterface extends UserInterface {
     
     public CustomerInterface(Scanner in, PrintStream out, Connection db) {
         super(in, out, db);
-
-        menu = new Menu<>("Choose Customer Interface", this);
-        menu.addItem("In-Store Visit", () -> {
-            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.STORE, in, out, db);
-            choose.run();
-            if (choose.getLocation() != null) {
-                new InStoreCustomerInterface(choose.getLocation(), in, out, db).run();
-            }
-        });
-        menu.addItem(new OnlineCustomerInterface(in, out, db));
     }
 
     @Override
     public void run() {
         clear();
+        
+        rebuildMenu();
         
         MenuItem<Runnable> choice = menu.promptOptional();
         if (choice == null || choice.get() == null) {
@@ -42,6 +34,18 @@ public class CustomerInterface extends UserInterface {
         run();
     }
 
+    private void rebuildMenu() {
+        menu = new Menu<>("Choose Customer Interface", this);
+        menu.addItem("In-Store Visit", () -> {
+            ChooseLocationInterface choose = new ChooseLocationInterface(Location.Type.STORE, in, out, db);
+            choose.run();
+            if (choose.getLocation() != null) {
+                new InStoreCustomerInterface(choose.getLocation(), in, out, db).run();
+            }
+        });
+        menu.addItem(new OnlineCustomerInterface(in, out, db));
+    }
+    
     @Override
     public String getInterfaceName() {
         return "Customer Interface";

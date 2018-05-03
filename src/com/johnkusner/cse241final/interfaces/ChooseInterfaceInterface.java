@@ -16,11 +16,6 @@ public class ChooseInterfaceInterface extends UserInterface {
     public ChooseInterfaceInterface(Scanner in, PrintStream out,
             Connection db) {
         super(in, out, db);
-
-        menu = new Menu<>("Chose an interface", this);
-        menu.addItem(new CustomerInterface(in, out, db));
-        menu.addItem(new ManagerInterface(in, out, db));
-        menu.addItem(new StatisticsInterface(in, out, db));
     }
 
     @Override
@@ -31,6 +26,8 @@ public class ChooseInterfaceInterface extends UserInterface {
     @Override
     public void run() {
         clear();
+        rebuildMenu();
+        
         UserInterface choice = menu.prompt().get();
         choice.run();
         
@@ -42,6 +39,13 @@ public class ChooseInterfaceInterface extends UserInterface {
         }
     }
 
+    private void rebuildMenu() {
+        menu = new Menu<>("Chose an interface", this);
+        menu.addItem(new CustomerInterface(in, out, db));
+        menu.addItem(new ManagerInterface(in, out, db));
+        menu.addItem(new StatisticsInterface(in, out, db));
+    }
+    
     @Override
     public void close() {
         // TODO Auto-generated method stub
