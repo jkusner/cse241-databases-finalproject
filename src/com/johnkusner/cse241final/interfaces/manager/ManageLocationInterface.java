@@ -23,7 +23,8 @@ public class ManageLocationInterface extends UserInterface {
 		menu.addItem("View Inventory", () -> viewInventory());
 		
 		if (loc.getType() == Location.Type.STORE) {
-		    menu.addItem("Recent Transactions", () -> viewTransactions());		    
+            menu.addItem("Recent Transactions", () -> viewTransactions());
+            // TODO? pending pickup orders
 		}
 	}
 
