@@ -46,8 +46,6 @@ public class OnlineCustomerInterface extends UserInterface {
     private OnlineCustomer customer;
     private PaymentMethod paymentMethod;
     
-    private NumberFormat numberFormat;
-    private NumberFormat currencyFormat;
     private List<CartItem> cart;
     
     private Type orderType;
@@ -61,9 +59,6 @@ public class OnlineCustomerInterface extends UserInterface {
         super(in, out, db);
         
         cart = new ArrayList<>();
-        
-        numberFormat = NumberFormat.getNumberInstance();
-        currencyFormat = NumberFormat.getCurrencyInstance();
     }
 
     @Override
@@ -419,18 +414,6 @@ public class OnlineCustomerInterface extends UserInterface {
         return cart.stream().mapToInt(i -> i.getQty()).sum();
     }
 
-    private String numberFormat(int num) {
-        return numberFormat.format(num);
-    }
-    
-    private String moneyFormat(double num) {
-        return currencyFormat.format(num);
-    }
-    
-    private String s(int val) {
-    	return val != 1 ? "s" : "";
-    }
-    
     @Override
     public String getInterfaceName() {
         return "Shop On-line";
