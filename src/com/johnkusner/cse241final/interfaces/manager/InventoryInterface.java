@@ -84,19 +84,20 @@ public class InventoryInterface extends UserInterface {
 	            return;
 	        }
 	        
-	        purchaseShipments(wanted, shipments);
+	        purchaseShipments(wanted, shipments, item.getUnitPrice());
 	    } catch (Exception e) {
 	        handleException(e);
 	    }
 	}
 	
-	private void purchaseShipments(VendorSupply wanted, int numShipments) {
-	    try (CallableStatement cs = db.prepareCall("{ call order_inventory(?, ?, ?, ?) }");) {
+	private void purchaseShipments(VendorSupply wanted, int numShipments, double newPrice) {
+	    try (CallableStatement cs = db.prepareCall("{ call order_inventory(?, ?, ?, ?, ?) }");) {
 
             cs.setInt(1, loc.getId());
             cs.setInt(2, wanted.getProductId());
             cs.setInt(3, wanted.getVendorId());
             cs.setInt(4, numShipments);
+            cs.setDouble(5, newPrice);
             
             cs.execute();
             
