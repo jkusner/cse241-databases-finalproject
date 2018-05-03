@@ -61,11 +61,11 @@ public class Transaction {
     }
 
     public String toString() {
-        return String.format("%8d | %10s | %11s | %10s",
+        return String.format("%8d | %10s | %11s | %13s",
                 transactionId, dateFormat.format(timestamp), timeFormat.format(timestamp), currencyFormat.format(total));
     }
 
-    public static final String HEADER = String.format("%8s | %10s | %11s | %10s",
+    public static final String HEADER = String.format("%8s | %10s | %11s | %13s",
             "Trans ID", "Date", "Time", "Total");
 
 }
