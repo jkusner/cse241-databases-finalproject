@@ -13,12 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.johnkusner.cse241final.interfaces.ChooseLocationInterface;
 import com.johnkusner.cse241final.interfaces.ProductSearchInterface;
 import com.johnkusner.cse241final.interfaces.UserInterface;
 import com.johnkusner.cse241final.menu.Menu;
 import com.johnkusner.cse241final.menu.MenuItem;
 import com.johnkusner.cse241final.objects.Address;
 import com.johnkusner.cse241final.objects.CartItem;
+import com.johnkusner.cse241final.objects.Location;
 import com.johnkusner.cse241final.objects.OnlineCustomer;
 import com.johnkusner.cse241final.objects.PaymentMethod;
 import com.johnkusner.cse241final.objects.Product;
@@ -26,6 +28,21 @@ import com.johnkusner.cse241final.objects.Stock;
 
 public class OnlineCustomerInterface extends UserInterface {
 
+    public static enum Type {
+        PICKUP_ORDER("In-store Pickup"),
+        SHIPPED_ORDER("Shipped Order");
+        
+        private String name;
+        
+        Type(String name) {
+            this.name = name;
+        }
+        
+        public String toString() {
+            return name;
+        }
+    }
+    
     private OnlineCustomer customer;
     private PaymentMethod paymentMethod;
     
@@ -33,7 +50,10 @@ public class OnlineCustomerInterface extends UserInterface {
     private NumberFormat currencyFormat;
     private List<CartItem> cart;
     
+    private Type orderType;
     private Address shipTo;
+    private Location pickupLocation;
+    private String pickupName;
     
     private boolean finished = false;
     
@@ -66,14 +86,38 @@ public class OnlineCustomerInterface extends UserInterface {
             return;
         }
         
-        CustomerAddressInterface addressInterface = new CustomerAddressInterface(customer.getCustomer(), in, out, db);
-        addressInterface.run();
+        Menu<Type> typeMenu = new Menu<>("Choose order type", this);
+        typeMenu.addItem(Type.SHIPPED_ORDER);
+        typeMenu.addItem(Type.PICKUP_ORDER);
         
-        shipTo = addressInterface.getChosenAddress();
-        
-        if (shipTo == null) {
-            pause("No address has been chosen, press any key to exit interface.");
+        MenuItem<Type> chosenType = typeMenu.promptOptional();
+        if (chosenType == null || chosenType.get() == null) {
             return;
+        }
+        
+        orderType = chosenType.get();
+        
+        if (orderType == Type.SHIPPED_ORDER) {
+            CustomerAddressInterface addressInterface = new CustomerAddressInterface(customer.getCustomer(), in, out, db);
+            addressInterface.run();
+            
+            shipTo = addressInterface.getChosenAddress();
+            
+            if (shipTo == null) {
+                pause("No address has been chosen, press any key to exit interface.");
+                return;
+            }
+        } else {
+            ChooseLocationInterface locationInterface = new ChooseLocationInterface(Location.Type.STORE, in, out, db);
+            locationInterface.run();
+            pickupLocation = locationInterface.getLocation();
+            
+            if (pickupLocation == null) {
+                pause("No address has been chosen, press any key to exit interface.");
+                return;
+            }
+            
+            pickupName = promptSqlSafeString("Who will pick up this order (type a name)?", 2);
         }
         
         showMenu();
@@ -91,7 +135,11 @@ public class OnlineCustomerInterface extends UserInterface {
             cartStatus = getCartStatusMessage();
         }
         
-        menu.setPrompt("Hello, " + customer.getCustomer().getFullName() + "!\n" 
+        String inventoryType = orderType == Type.PICKUP_ORDER
+                ? ("You are shopping for pickup at " + pickupLocation.getName() + ".")
+                : "You are shopping online inventory.";
+        
+        menu.setPrompt("Hello, " + customer.getCustomer().getFullName() + "! " + inventoryType + "\n" 
                 + cartStatus + " What would you like to do?");
         MenuItem<Runnable> choice = menu.promptOptional();
         
@@ -287,9 +335,22 @@ public class OnlineCustomerInterface extends UserInterface {
     		editItem(item);
     		return;
     	}
+    	
+    	String query;
+    	
+    	if (orderType == Type.SHIPPED_ORDER) {
+    	    query = "select * from warehouse_stock where product_id = "
+                    + prod.getId() + " and qty > 0";
+    	} else {
+    	    query = "select * from stock "
+    	            + "natural join product where "
+    	            + "product_id = " + prod.getId() + " and "
+                    + "location_id = " + pickupLocation.getId() + " and "
+                    + "qty > 0";
+    	}
+    	
         try (Statement stmt = db.createStatement();
-                ResultSet rs = stmt.executeQuery("select * from warehouse_stock where product_id = " + prod.getId()
-                        + " and qty > 0")) {
+                ResultSet rs = stmt.executeQuery(query)) {
             clear();
             if (!rs.next()) {
                 out.println("Sorry, " + prod.getName() + " is out of stock.");
@@ -314,8 +375,11 @@ public class OnlineCustomerInterface extends UserInterface {
                 averageCost /= totalAvailable;
                 averageCost = Math.ceil(averageCost * 100) / 100.0;
                 
-                out.println("Cheaper items sell first. Your guaranteed price is <= "
-                        + moneyFormat(averageCost) + "/each");
+                if (available.size() > 1) {
+                    out.println("Cheaper items sell first. Your guaranteed price is <= "
+                            + moneyFormat(averageCost) + "/each");
+                }
+                
                 int wanted = promptInt("Enter desired quantity (0 to cancel)", 0, totalAvailable);
                 
                 if (wanted == 0) {
