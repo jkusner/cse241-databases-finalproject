@@ -218,23 +218,28 @@ public class OnlineCustomerInterface extends UserInterface {
         	cs.close();
         	
         	
-        	cs = db.prepareCall("{ call purchase_product(?, ?, ?, ?, ?, ?) }");;
+        	cs = db.prepareCall("{ call purchase_product(?, ?, ?, ?, ?, ?, ?) }");;
         	
         	int totalItemsPurchased = 0;
         	double totalMoneySpent = 0.00;
 
         	for (CartItem item : cart) {
         		cs.setInt(1, transactionId);
-        		cs.setInt(2, item.getProductId());
-        		cs.setInt(3, item.getQty());
-        		cs.setDouble(4, item.getUnitPrice());
-        		cs.registerOutParameter(5, Types.INTEGER); // amount_got
-        		cs.registerOutParameter(6, Types.DOUBLE); // total_paid
+        		if (orderType == Type.SHIPPED_ORDER) {
+        		    cs.setNull(2, Types.INTEGER);
+        		} else {
+        		    cs.setInt(2, pickupLocation.getId());
+        		}
+        		cs.setInt(3, item.getProductId());
+        		cs.setInt(4, item.getQty());
+        		cs.setDouble(5, item.getUnitPrice());
+        		cs.registerOutParameter(6, Types.INTEGER); // amount_got
+        		cs.registerOutParameter(7, Types.DOUBLE); // total_paid
         		
         		cs.execute();
         	
-        		int purchasedQty = cs.getInt(5);
-        		double purchasePrice = cs.getDouble(6);
+        		int purchasedQty = cs.getInt(6);
+        		double purchasePrice = cs.getDouble(7);
         		
         		totalItemsPurchased += purchasedQty;
         		totalMoneySpent += purchasePrice;
@@ -266,24 +271,23 @@ public class OnlineCustomerInterface extends UserInterface {
         	} else {
         	    // 2-day shipping
         	    Date estArrival = new Date(new java.util.Date().getTime() + (2 * 24 * 60 * 60 * 1000));
-        	    
         	    cs = db.prepareCall("{ call finish_online_transaction(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
         	    
         	    cs.setInt(1, transactionId);
         	    cs.setDouble(2, 0.0); // tax rate
         	    cs.setDouble(3, paymentMethod.getId());
         	    cs.setDate(4, estArrival);
-//        	    if (pickupOrder) {
-//        	        cs.setString(5, "pickup order name"); // TODO!
-//        	        cs.setInt(6, 1); // pickup order location TODO!
-//        	        cs.setNull(7, Types.INTEGER); // shipping address
-//        	        cs.setNull(8, Types.VARCHAR); // tracking number
-//        	    } else {
+        	    if (orderType == Type.PICKUP_ORDER) {
+        	        cs.setString(5, pickupName);
+        	        cs.setInt(6, pickupLocation.getId());
+        	        cs.setNull(7, Types.INTEGER); // shipping address
+        	        cs.setNull(8, Types.VARCHAR); // tracking number
+        	    } else {
                     cs.setNull(5, Types.VARCHAR);
                     cs.setNull(6, Types.INTEGER);
                     cs.setInt(7, shipTo.getId());
-                    cs.setString(8, "tracking number"); // TODO!
-//        	    }
+                    cs.setString(8, "tracking number");
+        	    }
         	    
         	    cs.registerOutParameter(9, Types.DOUBLE); // final total
         	    
@@ -302,7 +306,12 @@ public class OnlineCustomerInterface extends UserInterface {
         		        numberFormat(totalItemsPurchased),
         		        moneyFormat(totalMoneySpent),
         		        paymentMethod.toString());
-        		out.printf("Your order will arrive soon at %s!\n", shipTo.toSimpleString());
+        		
+        		String destination = orderType == Type.SHIPPED_ORDER
+        		        ? shipTo.toSimpleString()
+		                : pickupLocation.getName();
+        		        
+        		out.printf("Your order will arrive soon at %s!\n", destination);
         		pause("\nPress enter to exit interface.");
         		return;
         	}
