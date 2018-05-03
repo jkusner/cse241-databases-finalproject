@@ -25,7 +25,7 @@ public class Transaction {
         this.total = total;
         this.timestamp = timestamp;
         
-        dateFormat = new SimpleDateFormat("MM/d/yyyy");
+        dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         timeFormat = new SimpleDateFormat("hh:mm:ss a");
         currencyFormat = NumberFormat.getCurrencyInstance();
     }
