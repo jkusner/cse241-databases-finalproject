@@ -8,6 +8,7 @@ import com.johnkusner.cse241final.interfaces.customer.CustomerInterface;
 import com.johnkusner.cse241final.interfaces.manager.ManagerInterface;
 import com.johnkusner.cse241final.interfaces.statistics.StatisticsInterface;
 import com.johnkusner.cse241final.menu.Menu;
+import com.johnkusner.cse241final.menu.MenuItem;
 
 public class ChooseInterfaceInterface extends UserInterface {
 
@@ -28,14 +29,15 @@ public class ChooseInterfaceInterface extends UserInterface {
         clear();
         rebuildMenu();
         
-        UserInterface choice = menu.prompt().get();
-        choice.run();
-        
-        if (promptBool("Would you like to run another interface?")) {
-            this.run();
-        }
-        else {
-            out.println("Goodbye!");
+        MenuItem<UserInterface> choice = menu.promptOptional();
+        if (choice != null && choice.get() != null) {
+            choice.get().run();            
+
+            if (promptBool("Would you like to run another interface?")) {
+                this.run();
+            } else {
+                out.println("Goodbye!");
+            }
         }
     }
 

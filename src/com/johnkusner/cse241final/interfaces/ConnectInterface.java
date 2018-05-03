@@ -20,13 +20,15 @@ public class ConnectInterface extends UserInterface {
 
     @Override
     public void run() {
+        out.println("Welcome to Big River Crossing!\n");
+        out.println("=== For the best user experience, please make sure this entire sentence fits on one line. ===\n");
         while (true) {
             String password = promptString("Enter password for " + DB_USERNAME);
             if (connect(password)) {
                 // Connection was made, work is finished.
                 return;
             }
-            out.println("Failed to connect. Please re-enter password.");
+            out.println("\nFailed to connect. Please re-enter password.");
         }
     }
     
@@ -41,8 +43,6 @@ public class ConnectInterface extends UserInterface {
             
             connected = true;
             this.db = con;
-            
-            out.println("Connection successful!");
             
             ChooseInterfaceInterface choose = new ChooseInterfaceInterface(in, out, this.db);
             choose.run();
