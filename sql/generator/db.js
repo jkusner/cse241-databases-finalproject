@@ -8,7 +8,6 @@ function buildInsert(table, data) {
     str.push(') VALUES (');
     for (let key in data) {
         let value = data[key];
-        // TODO escape strings and stuff
         if (typeof value === 'string' && !value.startsWith('TIMESTAMP')) {
             value = `'${value}'`;
         } else if (value === null) {
