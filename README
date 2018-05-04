@@ -8,7 +8,7 @@ Building:
 
 Executing:
 	Run
-		$ java -jar jjk320kusner.jar
+		$ java -jar jjk320.jar
 	Note that ojdbc7.jar is required for execution.
 
 Data sources:
