@@ -134,4 +134,4 @@ TODO:
 	
 !! average needs to change as cheaper products are purchased.
 !! consider prompting user for their max price or max total
-!! randomly generate tracking number and display to customer
+!! add order type to transaction view (optional column, ex: Pickup)

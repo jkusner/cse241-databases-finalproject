@@ -11,6 +11,7 @@ import java.sql.Types;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.johnkusner.cse241final.interfaces.ChooseLocationInterface;
@@ -284,10 +285,10 @@ public class OnlineCustomerInterface extends UserInterface {
         	        cs.setNull(7, Types.INTEGER); // shipping address
         	        cs.setNull(8, Types.VARCHAR); // tracking number
         	    } else {
-                    cs.setNull(5, Types.VARCHAR);
-                    cs.setNull(6, Types.INTEGER);
+                    cs.setNull(5, Types.VARCHAR); // pickup name
+                    cs.setNull(6, Types.INTEGER); // pickup location
                     cs.setInt(7, shipTo.getId());
-                    cs.setString(8, "tracking number");
+                    cs.setString(8, getRandomTrackingNumber());
         	    }
         	    
         	    cs.registerOutParameter(9, Types.DOUBLE); // final total
@@ -417,6 +418,15 @@ public class OnlineCustomerInterface extends UserInterface {
     @Override
     public String getInterfaceName() {
         return "Shop On-line";
+    }
+    
+    private String getRandomTrackingNumber() {
+        StringBuilder sb = new StringBuilder();
+        Random r = new Random();
+        for (int i = 0; i < 15; i++) {
+            sb.append(r.nextInt(10));
+        }
+        return sb.toString();
     }
 
     @Override
