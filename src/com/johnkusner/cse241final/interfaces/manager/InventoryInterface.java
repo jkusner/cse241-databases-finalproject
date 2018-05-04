@@ -36,7 +36,7 @@ public class InventoryInterface extends UserInterface {
 						+ "where location_id = " + loc.getId())) {
 			
 			Menu<Stock> inv = new Menu<Stock>("Stock at \"" + loc.getName() + "\"\n"
-			        + "To order more of a product, choose it below.", Stock.HEADER, this);
+			        + "To edit pricing or order more of a product, choose it below.", Stock.HEADER, this);
 			while (r.next()) {
 				Stock entry = new Stock(r);
 				
@@ -63,16 +63,22 @@ public class InventoryInterface extends UserInterface {
 	    
 	    try (Statement s = db.createStatement();
 	            ResultSet rs = s.executeQuery(query)) {
-	        String title = "Shipments available for \"" + item.getProductName() + "\"";
+	        String title = "Options for \"" + item.getProductName() + "\" at " + loc.getName();
 	        
 	        Menu<VendorSupply> supplyMenu = new Menu<>(title, this);
 	        
+	        supplyMenu.addItem("Edit Price (Current price: " + moneyFormat(item.getUnitPrice()) + ")", null);
 	        while (rs.next()) {
-	            supplyMenu.addItem(new VendorSupply(rs));
+	            VendorSupply vs = new VendorSupply(rs);
+	            supplyMenu.addItem("Reorder " + vs.toString(), vs);
 	        }
 	        
 	        MenuItem<VendorSupply> chosen = supplyMenu.display();
-	        if (chosen == null || chosen.get() == null) {
+	        if (chosen == null) {
+	            return;
+	        }
+	        if (chosen.get() == null) {
+	            editPrice(item);
 	            return;
 	        }
 	        
@@ -109,6 +115,31 @@ public class InventoryInterface extends UserInterface {
 	    } catch (Exception e) {
 	        out.println("Failed to order inventory.");
 	        handleException(e);
+	    }
+	}
+	
+	private void editPrice(Stock item) {
+	    double newPrice = promptDouble("Choose a new price (current: " + moneyFormat(item.getUnitPrice()) + ")", 0.01, 99999.99);
+	    if (!promptBool("Are you sure you want to change the price to " + moneyFormat(newPrice) + "?")) {
+	        return;
+	    }
+	    
+	    String query = "update stock"
+	            + " set unit_price = " + newPrice 
+	            + " where location_id = " + loc.getId()
+	            + " and product_id = " + item.getProductId();
+	    
+	    try (Statement s = db.createStatement()) {
+	        if (s.executeUpdate(query) == 1) {
+	            pause("Successfully updated price! Press enter to continue.");
+	            return;
+	        }
+	    } catch (Exception e) {
+	        handleException(e);
+	    }
+	    
+	    if (promptBool("Failed to update price. Would you like to try again?")) {
+	        editPrice(item);
 	    }
 	}
 
