@@ -178,7 +178,8 @@ public class CustomerInterface extends UserInterface {
     }
     
     private void editItem(CartItem item) {
-    	clear();
+    	// TODO: Get rid of this stuff. Just delete all of that item from cart and bring stock back up.
+        clear();
     	out.println("Your cart contains " + numberFormat(item.getQty()) + "x \"" + item.getProductName() + "\"");
     	out.println("There are " + numberFormat(item.getMaxQty()) + " available.");
     	int newQty = promptInt("Enter new quantity (0 to remove)", 0, item.getMaxQty());
@@ -242,11 +243,11 @@ public class CustomerInterface extends UserInterface {
         		if (purchasedQty > 0) {
                     String stockNotice = "";
                     if (purchasedQty < item.getQty()) {
-                        stockNotice = " (no more stock in price range)";
+                        stockNotice = " (no more stock at this price)";
                     }
                     
-                    out.printf("Got %sx \"%s\" for %s total%s\n", numberFormat(purchasedQty),
-                            item.getProductName(), moneyFormat(purchasePrice), stockNotice);
+                    out.printf("Got %sx \"%s\" at %s/each (%s total)%s\n", numberFormat(purchasedQty),
+                            item.getProductName(), moneyFormat(purchasePrice/purchasedQty), moneyFormat(purchasePrice), stockNotice);
         		} else {
         		    out.printf("Out of stock: %s\n", item.getProductName());
         		}
@@ -300,7 +301,7 @@ public class CustomerInterface extends UserInterface {
         		// Committed successfully
         		finished = true;        		
         		out.printf("Thank you for shopping with BRC, %s!\n", customer.getCustomer().getFullName());
-        		out.printf("Total items purchased: %s\nCharged %s to %s\n",
+        		out.printf("Total items purchased: %s.\n\nCharged %s to %s\n",
         		        numberFormat(totalItemsPurchased),
         		        moneyFormat(totalMoneySpent),
         		        paymentMethod.toString());
@@ -380,17 +381,29 @@ public class CustomerInterface extends UserInterface {
                 averageCost = Math.ceil(averageCost * 100) / 100.0;
                 
                 if (available.size() > 1) {
-                    out.println("Cheaper items sell first. Your guaranteed price is <= "
-                            + moneyFormat(averageCost) + "/each");
+                    out.println("Cheaper items sell first.");
                 }
                 
-                int wanted = promptInt("Enter desired quantity (0 to cancel)", 0, totalAvailable);
+                int wanted = promptInt("Enter desired quantity (0 for none)", 0, totalAvailable);
                 
                 if (wanted == 0) {
                     return;
                 }
                 
-                cart.add(new CartItem(new Stock(prod.getId(), prod.getName(), totalAvailable, averageCost), wanted));
+                int remaining = wanted;
+                
+                for (Stock stock : available) {
+                    int qty = Math.min(remaining, stock.getQty());
+                    cart.add(new CartItem(stock, qty));
+                    
+                    remaining -= qty;
+                    
+                    if (remaining <= 0) {
+                        break;
+                    }
+                }
+                
+                editCart();
             }
         } catch (Exception e) {
             handleException(e);
