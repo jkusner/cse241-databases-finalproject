@@ -28,7 +28,7 @@ public class Stock {
 	}
 
 	public String toString() {
-		return String.format("%8d | %30s | %6s | %9s", productId, productName, numFormat.format(qty), currencyFormat.format(unitPrice));
+		return String.format("%30s | %6s | %9s", productName, numFormat.format(qty), currencyFormat.format(unitPrice));
 	}
 	
 	public String toSimpleString(boolean showTotal) {
@@ -52,5 +52,5 @@ public class Stock {
 		return productId;
 	}
 
-	public static final String HEADER = String.format("%8s | %30s | %6s | %9s", "ID", "Product Name", "QTY", "$/Unit");
+	public static final String HEADER = String.format("%30s | %6s | %9s", "ID", "Product Name", "QTY", "$/Unit");
 }
