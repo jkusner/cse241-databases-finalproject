@@ -52,5 +52,5 @@ public class Stock {
 		return productId;
 	}
 
-	public static final String HEADER = String.format("%30s | %6s | %9s", "ID", "Product Name", "QTY", "$/Unit");
+	public static final String HEADER = String.format("%30s | %6s | %9s", "Product Name", "QTY", "$/Unit");
 }
