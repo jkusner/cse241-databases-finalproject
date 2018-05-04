@@ -34,7 +34,7 @@ Interfaces:
             This is the highly interactive interface that most of my time went into. When you
             launch the interface you choose a user to login as. Then you are asked to choose
             one of that user's payment methods to use in the transaction. Next, you choose 
-            one of the user's addresses to ship to.	This begins the online shopping interface
+            one of the user's addresses to ship to. This begins the online shopping interface
             described below.
         Sub-Interfaces:
             Shop On-Line:
