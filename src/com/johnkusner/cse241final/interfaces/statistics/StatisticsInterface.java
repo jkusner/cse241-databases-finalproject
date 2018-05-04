@@ -39,7 +39,7 @@ public class StatisticsInterface extends UserInterface {
 		super(in, out, db);
 		
 		menu = new Menu<>("Which statistics would you like to view?", this);
-		menu.addItem("Top product sales...", () -> showTopSellers());
+		menu.addItem("Top selling products...", () -> showTopSellers());
 		menu.addItem("Sales totals...", () -> showSalesTotals());
 	}
 
