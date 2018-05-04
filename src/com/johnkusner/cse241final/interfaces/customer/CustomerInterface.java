@@ -99,7 +99,6 @@ public class CustomerInterface extends UserInterface {
             shipTo = addressInterface.getChosenAddress();
             
             if (shipTo == null) {
-                pause("No address has been chosen, press enter to exit interface.");
                 return;
             }
         } else {
@@ -108,11 +107,10 @@ public class CustomerInterface extends UserInterface {
             pickupLocation = locationInterface.getLocation();
             
             if (pickupLocation == null) {
-                pause("No address has been chosen, press enter to exit interface.");
                 return;
             }
             
-            pickupName = promptSqlSafeString("Who will pick up this order (type a name)?", 2);
+            pickupName = promptSqlSafeString("Who is authorized to pick up this order?", 2);
         }
         
         showMenu();

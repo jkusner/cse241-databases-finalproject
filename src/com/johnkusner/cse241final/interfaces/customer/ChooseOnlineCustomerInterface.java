@@ -66,7 +66,7 @@ public class ChooseOnlineCustomerInterface extends UserInterface {
                         + "where customer_id = " + chosen.getId() + " "
                         + "order by lower(payment_method_name)")) {
             
-            Menu<PaymentMethod> methods = new Menu<>("Welcome back, " + chosen.getCustomer().getFullName() + ". Please choose your payment method.", this);
+            Menu<PaymentMethod> methods = new Menu<>("Welcome back, " + chosen.getCustomer().getFullName() + "! Please select the payment method you would like to use", this);
             while (rs.next()) {
                 methods.addItem(new PaymentMethod(rs));
             }
