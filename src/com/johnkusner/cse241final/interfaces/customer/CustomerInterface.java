@@ -308,7 +308,7 @@ public class CustomerInterface extends UserInterface {
         		
         		String destination = orderType == Type.SHIPPED_ORDER
         		        ? shipTo.toSimpleString()
-		                : pickupLocation.getName();
+		                : (pickupLocation.getName() + " for pickup by " + pickupName);
         		        
         		out.printf("Your order will arrive soon at %s!\n", destination);
         		pause("\nPress enter to log out of interface.");
