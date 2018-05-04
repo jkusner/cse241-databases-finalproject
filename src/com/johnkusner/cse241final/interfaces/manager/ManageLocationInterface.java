@@ -20,11 +20,10 @@ public class ManageLocationInterface extends UserInterface {
 		
 		menu = new Menu<>("Viewing Location: \"" + loc.getName()
 			+ "\", located at\n" + loc.getAddress(), this);
-        menu.addItem("View Inventory", () -> viewInventory());
+        menu.addItem("View / Reorder Inventory", () -> viewInventory());
 		
 		if (loc.getType() == Location.Type.STORE) {
             menu.addItem("Recent Transactions", () -> viewTransactions());
-            // TODO? pending pickup orders
 		}
 	}
 
