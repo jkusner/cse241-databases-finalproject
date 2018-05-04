@@ -70,10 +70,5 @@ public class CategoryBrowserInterface extends UserInterface {
     public String getInterfaceName() {
         return "Category Browser";
     }
-
-    @Override
-    public void close() {
-        
-    }
-
+    
 }

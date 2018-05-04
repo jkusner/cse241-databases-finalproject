@@ -41,9 +41,4 @@ public class ManageCustomerInterface extends UserInterface {
 		return "Manage Customer";
 	}
 
-	@Override
-	public void close() {
-		
-	}
-
 }

@@ -60,9 +60,5 @@ public class ManagerInterface extends UserInterface {
 
         run();
     }
-
-    @Override
-    public void close() {
-
-    }
+    
 }

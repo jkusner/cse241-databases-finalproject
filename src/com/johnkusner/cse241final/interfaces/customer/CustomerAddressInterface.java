@@ -63,10 +63,4 @@ public class CustomerAddressInterface extends UserInterface {
         return address;
     }
 
-    @Override
-    public void close() {
-        // TODO Auto-generated method stub
-        
-    }
-    
 }

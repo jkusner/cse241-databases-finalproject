@@ -56,9 +56,4 @@ public class ConnectInterface extends UserInterface {
         return connected;
     }
 
-    @Override
-    public void close() {
-        
-    }
-
 }

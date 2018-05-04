@@ -111,9 +111,5 @@ public class InventoryInterface extends UserInterface {
 	        handleException(e);
 	    }
 	}
-	
-	@Override
-	public void close() {
-	}
 
 }

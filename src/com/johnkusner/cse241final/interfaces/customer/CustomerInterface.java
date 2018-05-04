@@ -51,9 +51,4 @@ public class CustomerInterface extends UserInterface {
         return "Customer Interface";
     }
 
-    @Override
-    public void close() {
-        
-    }
-
 }

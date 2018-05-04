@@ -48,9 +48,5 @@ public class TransactionDetailInterface extends UserInterface {
 			handleException(e);
 		}
 	}
-	
-	@Override
-	public void close() {
-	}
 
 }

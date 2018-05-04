@@ -47,11 +47,5 @@ public class ChooseInterfaceInterface extends UserInterface {
         menu.addItem(new ManagerInterface(in, out, db));
         menu.addItem(new StatisticsInterface(in, out, db));
     }
-    
-    @Override
-    public void close() {
-        // TODO Auto-generated method stub
-
-    }
 
 }

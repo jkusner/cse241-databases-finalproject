@@ -82,9 +82,5 @@ public class RecentTransactionsInterface extends UserInterface {
             handleException(e);
         }
 	}
-	
-	@Override
-	public void close() {
-	}
 
 }

@@ -60,11 +60,6 @@ public class ChooseOnlineCustomerInterface extends UserInterface {
 		return "Choose Location";
 	}
 
-	@Override
-	public void close() {
-		
-	}
-
 	public PaymentMethod choosePaymentMethod() {
         try (Statement s = db.createStatement();
                 ResultSet rs = s.executeQuery("SELECT * FROM payment_method "

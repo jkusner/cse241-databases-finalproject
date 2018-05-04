@@ -34,11 +34,6 @@ public class TestInterface extends UserInterface {
     }
 
     @Override
-    public void close() {
-        out.println("Closing");
-    }
-
-    @Override
     public String getInterfaceName() {
         return "Test Interface";
     }

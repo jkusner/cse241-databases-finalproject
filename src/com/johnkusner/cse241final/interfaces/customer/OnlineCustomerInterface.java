@@ -429,9 +429,4 @@ public class OnlineCustomerInterface extends UserInterface {
         return sb.toString();
     }
 
-    @Override
-    public void close() {
-        
-    }
-
 }

@@ -20,7 +20,6 @@ public abstract class UserInterface extends IOHandler implements Runnable {
     }
     
     public abstract String getInterfaceName();
-    public abstract void close();
     
     public String toString() {
         return getInterfaceName();

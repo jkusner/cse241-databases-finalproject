@@ -104,11 +104,6 @@ public class ProductSearchInterface extends UserInterface {
     public String getInterfaceName() {
         return "Search for a product";
     }
-
-    @Override
-    public void close() {
-        
-    }
     
     public Product getChosenProduct() {
         return this.chosenProduct;

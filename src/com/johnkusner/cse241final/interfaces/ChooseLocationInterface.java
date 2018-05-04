@@ -60,10 +60,5 @@ public class ChooseLocationInterface extends UserInterface {
 	    }
 	    return " natural join " + (locType == Location.Type.STORE ? "store" : "warehouse"); 
 	}
-	
-	@Override
-	public void close() {
-		
-	}
 
 }

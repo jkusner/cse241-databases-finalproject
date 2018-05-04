@@ -49,9 +49,4 @@ public class ManageLocationInterface extends UserInterface {
 		return "Manage Location";
 	}
 
-	@Override
-	public void close() {
-		
-	}
-
 }

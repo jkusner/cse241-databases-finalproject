@@ -176,9 +176,5 @@ public class StatisticsInterface extends UserInterface {
 		
 		showSalesTotals();
 	}
-	
-	@Override
-	public void close() {
-	}
 
 }

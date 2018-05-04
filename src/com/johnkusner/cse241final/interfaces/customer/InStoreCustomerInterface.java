@@ -29,9 +29,4 @@ public class InStoreCustomerInterface extends UserInterface {
         return "Shop In-Store";
     }
 
-    @Override
-    public void close() {
-        
-    }
-
 }
