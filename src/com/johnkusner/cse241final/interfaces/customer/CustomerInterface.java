@@ -77,7 +77,6 @@ public class CustomerInterface extends UserInterface {
         paymentMethod = custLoginInterface.choosePaymentMethod();
         
         if (paymentMethod == null) {
-            pause("No payment method chosen, press any key to exit interface.");
             return;
         }
         
