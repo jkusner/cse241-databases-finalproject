@@ -320,7 +320,7 @@ create table purchased (
         check (qty > 0),
     unit_price number(8,2),
         check (unit_price >= 0),
-    primary key (transaction_id, product_id),
+    primary key (transaction_id, product_id, unit_price),
     foreign key (transaction_id) references transaction
         on delete cascade,
     foreign key (product_id) references product
