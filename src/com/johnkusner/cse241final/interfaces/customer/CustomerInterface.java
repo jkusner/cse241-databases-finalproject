@@ -178,16 +178,9 @@ public class CustomerInterface extends UserInterface {
     }
     
     private void editItem(CartItem item) {
-    	// TODO: Get rid of this stuff. Just delete all of that item from cart and bring stock back up.
         clear();
-    	out.println("Your cart contains " + numberFormat(item.getQty()) + "x \"" + item.getProductName() + "\"");
-    	out.println("There are " + numberFormat(item.getMaxQty()) + " available.");
-    	int newQty = promptInt("Enter new quantity (0 to remove)", 0, item.getMaxQty());
-    	if (newQty == 0) {
-    		cart.remove(item);
-    	} else {
-    		item.setQty(newQty);
-    	}
+        cart.removeIf(i -> i.getProductId() == item.getProductId());
+        showAvailability(new Product(item.getProductId(), item.getProductName()));
     }
     
     private void checkout() {
