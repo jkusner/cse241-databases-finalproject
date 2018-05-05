@@ -47,10 +47,12 @@ Interfaces:
                 shown a listing for the availability of the product at its various prices in
                 the BRC warehouses. The customer can choose the quantity they want to add to
                 their cart, and repeat.	The customer is able to view all of the items in
-                their cart along with price totals. They can easily edit the quantity of
-                items in their cart (and remove items) from this menu. If they search for
-                a product that is already contained in their cart, they will be directed to
-                this menu automatically.
+                their cart along with price totals. They can choose an item in this listing
+                to edit the quantity they want to purchase. If an item has multiple prices
+                (like most items in the shipped order menu), the least expensive items are
+                added to the cart first. Several of the same item can exist in the cart with
+                different prices per item. Items with the same product id and price are
+                simply aggregated into one cart listing.
 
                 When the customer is ready to checkout, they confirm their decision and the
                 purchase attempt begins. Auto commit is disabled, and several stored
@@ -88,8 +90,9 @@ Interfaces:
             View Stores / Warehouses:
                 Allows managers to view information about locations.
                 Managers are able to view the inventory available at these locations, and can
-                reorder chosen products from vendors easily. For stores only, managers can
-                view recent transactions (both physical and pickup-orders).
+                reorder chosen products from vendors easily. Additionally, they are able to
+                edit prices of each item from this menu. For stores only, managers can view
+                recent transactions (including both physical and pickup-orders).
             View Customers:
                 View information about customers, and their recent transactions.
             Transaction detail:
@@ -112,7 +115,7 @@ Interfaces:
                 information is discarded and total transaction count, item count, and
                 revenue are shown.
     
-    In a real system. Several more interfaces would be included. These include price editing,
+    In a real system. Several more interfaces would be included. Some examples include:
     sale and discount management, interfaces for cashiers/cash registers that read barcodes
     and facillitate a physical transaction. Interfaces for account management (both for the
     users and managers/administrators), more statistics interfaces, and many more for all
@@ -131,9 +134,9 @@ Use of PL/SQL:
             id, returns the transaction_id to the caller via an out parameter.
         - purchase_product: purchases as many of a product as it can from either the
             specified location or the collection of all warehouses. Updates quantities in
-            stock table and creates entries in the purchased table. Updates subtotal and
-            total in the transaction table. Returns the amount of products purchased and the
-            total price of the purchased products via out parameters.
+            stock table and creates/updates entries in the purchased table. Updates subtotal
+            and total in the transaction table. Returns the amount of products purchased and
+            the total price of the purchased products via out parameters.
         - finish_online_transaction: applies tax to a transaction (if asked), adds an entry
             to online_transaction table and either the pickup_order or shipped_order table.
             Also adds record to used_payment_method, as if a real customer used one of their
@@ -148,15 +151,3 @@ Use of views:
     and top_selling_products_X. Additionally, warehouse_stock aggregates all available stock
     between warehouses, and store_transactions gets recent transaction information for a
     store including both physical and pickup_order transactions.
-    
-TODO:
-    unify customer interfaces, make the difference that online requires login, offline
-    requires you to pick store, stock information is dependent on if you are at a store or
-    from the warehouses.
-    
-!! average needs to change as cheaper products are purchased.
-!! consider prompting user for their max price or max total
-!! add order type to transaction view (optional column, ex: Pickup)
-!!!! I HAVE TO FIGURE OUT HOW TO HANDLE MAX PRICE STILL !!!!
-it probably makes sense just to reload the item instead of even have an edit item option
-since stock changes. maybe we should just store qty, price pairs or something
