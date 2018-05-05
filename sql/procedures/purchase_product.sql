@@ -17,6 +17,7 @@ as
                 or (loc_id is null and location_id in (select location_id from warehouse)))
         order by unit_price;
     stockRow stock%rowtype;
+    already_purchased number;
 begin
     qty_got := 0;
     total_paid := 0;
@@ -56,10 +57,26 @@ begin
     
     if qty_got > 0
     then
-        insert into purchased 
-            (transaction_id, product_id, qty, unit_price)
-        values
-            (trans_id, wanted_product_id, qty_got, total_paid / qty_got);
+        select count(*)
+        into already_purchased
+        from purchased
+        where transaction_id = trans_id
+            and unit_price = total_paid / qty_got
+            and product_id = wanted_product_id;
+            
+        if already_purchased > 0
+        then
+            update purchased
+            set qty = qty + qty_got
+            where transaction_id = trans_id
+                and unit_price = total_paid / qty_got
+                and product_id = wanted_product_id;
+        else
+            insert into purchased 
+                (transaction_id, product_id, qty, unit_price)
+            values
+                (trans_id, wanted_product_id, qty_got, total_paid / qty_got);        
+        end if;
             
         update transaction
         set
