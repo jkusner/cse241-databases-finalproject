@@ -161,7 +161,7 @@ public class CustomerInterface extends UserInterface {
     
     private void editCart() {
         String title = getCartStatusMessage();
-        title += "\nSelect an item below to modify it.";
+        title += "\nSelect an item below to modify it. Press Exit to view more options.";
         
     	Menu<CartItem> cartDisplay = new Menu<>(title, CartItem.HEADER, this);
     	
