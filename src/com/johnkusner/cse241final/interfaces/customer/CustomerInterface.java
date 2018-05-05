@@ -374,7 +374,7 @@ public class CustomerInterface extends UserInterface {
                 averageCost = Math.ceil(averageCost * 100) / 100.0;
                 
                 if (available.size() > 1) {
-                    out.println("Cheaper items sell first.");
+                    out.println("Less expensive items sell first.");
                 }
                 
                 int wanted = promptInt("Enter desired quantity (0 for none)", 0, totalAvailable);
